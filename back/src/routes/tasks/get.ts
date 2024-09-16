@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { Tasks, TasksQueryResult } from "./models.js";
-import { newUid } from "../../lib/utils.js";
+import { getTracingHeader } from "../../lib/utils.js";
 
 export const getTasks = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
@@ -15,9 +15,11 @@ export const getTasks = async (fastify: FastifyInstance) => {
         500: z.object({ error: z.unknown() }),
       },
     },
-    handler: async (_request, reply) => {
+    handler: async (request, reply) => {
+      const { tracingId, key } = getTracingHeader(request.headers);
+      reply.header(key, tracingId);
       const tasksLogger = fastify.log.child({
-        tracingId: `tasks-${newUid()}`,
+        tracingId,
       });
 
       tasksLogger.info("Starting to handle getTasks-request");

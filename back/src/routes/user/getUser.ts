@@ -2,8 +2,8 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { User, UserRequest } from "./models.js";
-import { newUid } from "../../lib/utils.js";
 import { config } from "../../config.js";
+import { getTracingHeader } from "../../lib/utils.js";
 
 export const getUser = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
@@ -17,8 +17,10 @@ export const getUser = async (fastify: FastifyInstance) => {
       },
     },
     handler: async (request, reply) => {
+      const { tracingId, key } = getTracingHeader(request.headers);
+      reply.header(key, tracingId);
       const userLogger = fastify.log.child({
-        tracingId: `user-${newUid()}`,
+        tracingId,
       });
 
       userLogger.info("Starting to handle getUser-request");
