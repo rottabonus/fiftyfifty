@@ -13,6 +13,7 @@ import { toWwwHtmlDir } from "./src/lib/utils.js";
 import { getHealth } from "./src/routes/health/get.js";
 import { getUser } from "./src/routes/user/getUser.js";
 import { getTasks } from "./src/routes/tasks/get.js";
+import { postTask } from "./src/routes/tasks/post.js";
 
 const fastify = Fastify({
   logger: {
@@ -39,6 +40,7 @@ fastify.register(fastifyStatic, {
 fastify.register(getUser);
 fastify.register(getHealth);
 fastify.register(getTasks);
+fastify.register(postTask);
 
 const start = async () => {
   try {
