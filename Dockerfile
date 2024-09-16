@@ -15,7 +15,7 @@ RUN npm install && npm run build
 
 
 # copy from builds
-FROM node:iron-alpine3.19 as prod 
+FROM node:22-alpine3.19 as prod 
 
 EXPOSE 3000
 USER node
