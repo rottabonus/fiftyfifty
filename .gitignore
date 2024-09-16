@@ -1,0 +1,16 @@
+# mac stuff
+**/**/.DS_Store
+
+# node_modules
+**/**/node_modules/
+
+# built frontend js-files
+front/www/*.js
+back/www
+
+# backend build
+back/dist
+
+# .env
+**/**/.env
+

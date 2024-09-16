@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "build": "esbuild index.ts --bundle --outfile=www/app.js --loader:.ts=tsx --minify --define:process.env.NODE_ENV=\\\"production\\\"",
+    "watch": "esbuild index.ts --bundle --outfile=www/app.js --loader:.ts=tsx --watch=forever --servedir=www --serve=3001",
+    "lint": "eslint src/ index.ts",
+    "lint:fix": "eslint src/ index.ts --fix",
+    "tsc": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@react-oauth/google": "^0.12.1",
+    "@tanstack/react-query": "^5.49.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.56.0",
+    "@types/node": "^20.14.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^10.0.0",
+    "esbuild": "0.23.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.35.0",
+    "globals": "^15.8.0",
+    "typescript": "^5.5.2",
+    "typescript-eslint": "^7.17.0"
+  }
+}
