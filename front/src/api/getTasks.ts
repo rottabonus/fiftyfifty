@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { commonHeaders } from "../lib/config";
+import { commonHeaders, getAccessToken } from "../lib/config";
 
 const timestampSchema = z.union([
   z.string().refine((str) => !isNaN(Date.parse(str)), {
@@ -28,6 +28,7 @@ export const getTasks = async () => {
     method: "get",
     headers: {
       ...commonHeaders,
+      ...getAccessToken(),
     },
   });
   const tasksJson = await tasksResponse.json();

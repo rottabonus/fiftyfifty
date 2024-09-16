@@ -36,3 +36,8 @@ export const toEnvironment = (data: null | string): ENVIRONMENT => {
 export const commonHeaders = {
   ["x-tracing-id"]: newUid(),
 };
+
+export const getAccessToken = () => {
+  const accessToken = sessionStorage.getItem("accessToken");
+  return { Authorization: `Bearer ${accessToken}` };
+};

@@ -1,30 +1,32 @@
 import React from "react";
-import { useGoogleLogin } from "@react-oauth/google";
-import type { User } from "./api/getUser";
-import { getUser } from "./api/getUser";
-import { TasksList } from "./features/tasksList";
+import { useLocation } from "./lib/useLocation";
+
+import { getAuthUrl } from "./api/getAuthUrl";
+import { getAuthToken } from "./api/getAuthToken";
 
 export const App = () => {
-  const [user, setUser] = React.useState<null | User>(null);
+  const location = useLocation();
 
-  const login = useGoogleLogin({
-    onSuccess: async (codeResponse) => {
-      const user = await getUser(codeResponse.code);
-      setUser(user);
-    },
-    onError: (error) => {
-      console.error("error", error);
-    },
-    flow: "auth-code",
-  });
+  const handleCode = async () => {
+    await getAuthUrl();
+  };
+
+  const handleToken = async (code: string) => {
+    await getAuthToken(code);
+  };
+
+  React.useEffect(() => {
+    // Parse id from referrer or url
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    if (code) {
+      handleToken(code);
+    }
+  }, [location]);
 
   return (
     <div>
-      {user ? (
-        <TasksList user={user} />
-      ) : (
-        <button onClick={login}>google login</button>
-      )}
+      <button onClick={handleCode}>google login</button>
     </div>
   );
 };

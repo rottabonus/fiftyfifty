@@ -26,3 +26,10 @@ export const getTracingId = (headers: IncomingHttpHeaders) => {
 
   return tracingId;
 };
+
+export const base64URLEncode = (str: Buffer) =>
+  str
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
