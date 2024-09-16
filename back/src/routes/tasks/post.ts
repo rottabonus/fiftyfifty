@@ -1,14 +1,15 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { Tasks, TasksQueryResult } from "./models.js";
+import { CreateTask, Tasks, TasksQueryResult } from "./models.js";
 import { getTracingHeader } from "../../lib/utils.js";
 
-export const getTasks = async (fastify: FastifyInstance) => {
+export const postTask = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
-    method: "GET",
-    url: "/tasks",
+    method: "POST",
+    url: "/task",
     schema: {
+      body: CreateTask,
       response: {
         200: Tasks,
         400: z.object({ error: z.string() }),
@@ -22,19 +23,23 @@ export const getTasks = async (fastify: FastifyInstance) => {
         tracingId,
       });
 
-      tasksLogger.info("Starting to handle getTasks-request");
+      tasksLogger.info("Starting to handle postTask-request");
 
       try {
-        const query = "select * from tasks";
+        const query = `
+          INSERT INTO tasks (name, assignee)
+          VALUES ($1, $2)
+          RETURNING id, name, "createdAt", "dueDate", assignee, done;
+        `;
 
-        const tasksResult = await fastify.pgQuery({
+        const taskResult = await fastify.pgQuery({
           query,
           model: TasksQueryResult,
-          values: [],
+          values: [request.body.name, request.body.assignee],
           traceLogger: tasksLogger,
         });
-        if (tasksResult.isOk) {
-          return reply.code(200).send({ tasks: tasksResult.data });
+        if (taskResult.isOk) {
+          return reply.code(200).send({ tasks: taskResult.data });
         }
 
         return reply

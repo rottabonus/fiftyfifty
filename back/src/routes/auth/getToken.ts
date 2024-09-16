@@ -1,29 +1,29 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { User, UserRequest } from "./models.js";
-import { config } from "../../config.js";
+import { TokenRequest, TokenResponse } from "./models.js";
 import { getTracingHeader } from "../../lib/utils.js";
+import { config } from "../../config.js";
 
-export const getUser = async (fastify: FastifyInstance) => {
+export const getAuthToken = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
-    url: "/user",
+    url: "/auth/token/new",
     schema: {
-      body: UserRequest,
+      body: TokenRequest,
       response: {
-        200: User,
+        200: TokenResponse,
+        400: z.object({ error: z.string() }),
         500: z.object({ error: z.unknown() }),
       },
     },
     handler: async (request, reply) => {
       const { tracingId, key } = getTracingHeader(request.headers);
       reply.header(key, tracingId);
-      const userLogger = fastify.log.child({
+      const authLogger = fastify.log.child({
         tracingId,
       });
-
-      userLogger.info("Starting to handle getUser-request");
+      authLogger.debug("starting to get token");
 
       try {
         const tokenRequest = {
@@ -31,6 +31,7 @@ export const getUser = async (fastify: FastifyInstance) => {
           client_id: config.clientId,
           client_secret: config.clientSecret,
           code: request.body.code,
+          code_verifier: request.body.code_verifier,
           redirect_uri: config.redirectUri,
         };
 
@@ -40,27 +41,18 @@ export const getUser = async (fastify: FastifyInstance) => {
         });
 
         const tokensJson = await tokens.json();
+        console.log(tokensJson);
+        authLogger.debug(tokensJson, "Got tokens");
 
-        const userInfo = await fetch(
-          "https://openidconnect.googleapis.com/v1/userinfo",
-          {
-            method: "post",
-            headers: { Authorization: `Bearer ${tokensJson.access_token}` },
-          },
-        );
-
-        userLogger.debug(userInfo, "got user");
-
-        const userJson = await userInfo.json();
-        const parsed = User.safeParse(userJson);
+        const parsed = TokenResponse.safeParse(tokensJson);
         if (parsed.success) {
-          return reply.code(200).send(parsed.data);
+          return reply.code(200).send(tokensJson);
         }
 
-        userLogger.error(parsed.error, "Error parsing userJson");
-        return reply.code(400).send({ error: "validation error" });
+        authLogger.error({ parsed }, "Error parsing response");
+        return reply.code(400).send({ error: "Error fetching accessToken" });
       } catch (error) {
-        userLogger.error({ error }, "Error handling request");
+        authLogger.error({ error }, "Error handling request");
         reply.code(500).send({ error: JSON.stringify(error) });
       }
     },
