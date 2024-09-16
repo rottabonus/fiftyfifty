@@ -1,34 +1,30 @@
 import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
+import type { User } from "./api/getUser";
+import { getUser } from "./api/getUser";
+import { TasksList } from "./features/tasksList";
 
 export const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [user, setUser] = React.useState<null | User>(null);
+
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
-      console.log("codeResponse", codeResponse);
-      const user = await fetch("http://localhost:3000/user", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: codeResponse.code }),
-      });
-      const userJson = await user.json();
-      setIsLoggedIn(true);
-      console.log("userJson", userJson);
+      const user = await getUser(codeResponse.code);
+      setUser(user);
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
     flow: "auth-code",
   });
 
   return (
     <div>
-      {isLoggedIn && (
-        <div>
-          <h2>hello</h2>
-        </div>
+      {user ? (
+        <TasksList user={user} />
+      ) : (
+        <button onClick={login}>google login</button>
       )}
-      <button onClick={login}>google login</button>
     </div>
   );
 };

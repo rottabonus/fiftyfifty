@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { newUid } from "./utils";
 
 export const TRACING_HEADER = "x-tracing-id";
 export const config = {
@@ -30,4 +31,8 @@ export const toEnvironment = (data: null | string): ENVIRONMENT => {
   }
 
   return "none";
+};
+
+export const commonHeaders = {
+  ["x-tracing-id"]: newUid(),
 };
