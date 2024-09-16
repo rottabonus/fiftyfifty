@@ -17,6 +17,11 @@ exports.up = (pgm) => {
       notNull: true,
       default: pgm.func('current_timestamp')
     },
+    dueDate: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func("current_timestamp + interval '7 days'")
+    },
     done: { type: 'boolean', notNull: true, default: 'false' },
     assignee: { type: 'varchar(1000)', notNull: false }
   })

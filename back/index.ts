@@ -7,10 +7,12 @@ import {
 import cors from "@fastify/cors";
 import traceLogger from "./src/plugins/traceLogger.js";
 import swagger from "./src/plugins/swagger.js";
+import pgClient from "./src/plugins/pgClient.js";
 import fastifyStatic from "@fastify/static";
-import { getHealth } from "./src/routes/health/get.js";
 import { toWwwHtmlDir } from "./src/lib/utils.js";
+import { getHealth } from "./src/routes/health/get.js";
 import { getUser } from "./src/routes/user/getUser.js";
+import { getTasks } from "./src/routes/tasks/get.js";
 
 const fastify = Fastify({
   logger: {
@@ -28,6 +30,7 @@ await fastify.register(cors, {
 });
 fastify.register(traceLogger);
 fastify.register(swagger);
+fastify.register(pgClient);
 
 // Routes
 fastify.register(fastifyStatic, {
@@ -35,6 +38,7 @@ fastify.register(fastifyStatic, {
 });
 fastify.register(getUser);
 fastify.register(getHealth);
+fastify.register(getTasks);
 
 const start = async () => {
   try {
