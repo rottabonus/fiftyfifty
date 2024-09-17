@@ -1,7 +1,8 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getTasks } from "./getTasks";
+import { getTasks } from "./api/getTasks";
 import { useEnvironment } from "../envContext/useEnvironment";
+import { Item } from "./components/Item";
 
 export const TasksList = () => {
   const environment = useEnvironment();
@@ -13,7 +14,7 @@ export const TasksList = () => {
 
   return (
     <div>
-      <ol>{data?.tasks.map((task) => <li key={task.id}>{task.name}</li>)}</ol>
+      <ol>{data?.tasks.map((task) => <Item key={task.id} task={task} />)}</ol>
     </div>
   );
 };
