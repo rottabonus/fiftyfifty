@@ -1,19 +1,20 @@
 import React from "react";
 
+import type { ENVIRONMENT } from "../../lib/config";
 import { useLocation } from "./useLocation";
-import { getAuthUrl } from "../api/getAuthUrl";
-import { getAuthToken } from "../api/getAuthToken";
+import { getAuthUrl } from "./getAuthUrl";
+import { getAuthToken } from "./getAuthToken";
 
-export const useAuthentication = () => {
+export const useAuthentication = (environment: ENVIRONMENT) => {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
   const login = async () => {
-    await getAuthUrl();
+    await getAuthUrl(environment);
   };
 
   const handleToken = async (code: string) => {
-    const result = await getAuthToken(code);
+    const result = await getAuthToken(code, environment);
     setIsAuthenticated(result.isAuthenticated);
   };
 

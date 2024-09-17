@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { getTracingHeader, getAccessToken } from "../lib/config";
+import type { ENVIRONMENT } from "../../lib/config";
+import { getTracingHeader, getAccessToken, config } from "../../lib/config";
 
 const timestampSchema = z.union([
   z.string().refine((str) => !isNaN(Date.parse(str)), {
@@ -23,8 +24,8 @@ const TasksResponse = z.object({
 
 export type Task = z.infer<typeof Task>;
 
-export const getTasks = async () => {
-  const tasksResponse = await fetch("http://localhost:3000/tasks", {
+export const getTasks = async (environment: ENVIRONMENT) => {
+  const tasksResponse = await fetch(`${config[environment].baseUrl}/tasks`, {
     method: "get",
     headers: {
       ...getTracingHeader(),

@@ -1,13 +1,20 @@
 import React from "react";
-import { Unauthenticated } from "./Unauthenticated";
+import type { ENVIRONMENT } from "./lib/config";
+import { EnvironmentProvider } from "./features/envContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Unauthenticated } from "./Unauthenticated";
 
-export const AppProvider = () => {
+type Props = {
+  environment: ENVIRONMENT;
+};
+export const AppProvider = ({ environment }: Props) => {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Unauthenticated />
-    </QueryClientProvider>
+    <EnvironmentProvider environment={environment}>
+      <QueryClientProvider client={queryClient}>
+        <Unauthenticated />
+      </QueryClientProvider>
+    </EnvironmentProvider>
   );
 };

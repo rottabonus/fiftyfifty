@@ -1,12 +1,14 @@
 import React from "react";
-import { getUser } from "../../api/getUser";
+import { getUser } from "./getUser";
 import { useQuery } from "@tanstack/react-query";
+import { useEnvironment } from "../envContext/useEnvironment";
 
 export const UserInfo = () => {
+  const environment = useEnvironment();
   const { data } = useQuery({
     queryKey: ["user"],
     refetchOnWindowFocus: false,
-    queryFn: () => getUser(),
+    queryFn: () => getUser(environment),
   });
 
   return (
