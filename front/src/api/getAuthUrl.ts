@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { commonHeaders } from "../lib/config";
+import { getTracingHeader } from "../lib/config";
 
 const AuthUrlResponse = z.object({
   code_verifier: z.string(),
@@ -10,7 +10,7 @@ export const getAuthUrl = async () => {
   const authResponse = await fetch("http://localhost:3000/auth/url/generate", {
     method: "POST",
     headers: {
-      ...commonHeaders,
+      ...getTracingHeader(),
       "Content-Type": "application/json",
     },
     body: JSON.stringify({

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { commonHeaders } from "../lib/config";
+import { getTracingHeader, getAccessToken } from "../lib/config";
 
 export const User = z.object({
   name: z.string(),
@@ -12,11 +12,14 @@ export const User = z.object({
 
 export type User = z.infer<typeof User>;
 
-export const getUser = async (code: string) => {
+export const getUser = async () => {
   const userResponse = await fetch("http://localhost:3000/user", {
-    method: "post",
-    headers: { "Content-Type": "application/json", ...commonHeaders },
-    body: JSON.stringify({ code }),
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+      ...getTracingHeader(),
+      ...getAccessToken(),
+    },
   });
   const userJson = await userResponse.json();
 

@@ -2,8 +2,7 @@ import fp from "fastify-plugin";
 import { z } from "zod";
 import JwksClient from "jwks-rsa";
 import Jwt from "jsonwebtoken";
-import { IncomingHttpHeaders } from "http";
-import { getTracingId } from "../lib/utils.js";
+import { getTracingId, getToken } from "../lib/utils.js";
 import { FastifyBaseLogger } from "fastify";
 
 const JwtTokenModel = z.object({
@@ -13,6 +12,9 @@ const JwtTokenModel = z.object({
 });
 
 const protectedResources = ["/tasks", "/task"];
+
+// TODO: Check this way instead
+// https://stackoverflow.com/a/44192619/19330309
 
 export default fp((fastify, _opts, done) => {
   fastify.addHook("onRequest", async (request, reply) => {
@@ -39,11 +41,6 @@ export default fp((fastify, _opts, done) => {
 
   done();
 });
-
-const getToken = (headers: IncomingHttpHeaders) => {
-  const authHeader = headers["authorization"];
-  return String(authHeader?.split(" ")[1]);
-};
 
 const getSigningKey = async (token: string) => {
   const client = JwksClient({

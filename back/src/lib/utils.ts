@@ -33,3 +33,8 @@ export const base64URLEncode = (str: Buffer) =>
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=/g, "");
+
+export const getToken = (headers: IncomingHttpHeaders) => {
+  const authHeader = headers["authorization"];
+  return String(authHeader?.split(" ")[1]);
+};

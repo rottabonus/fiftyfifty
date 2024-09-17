@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { commonHeaders } from "../lib/config";
+import { getTracingHeader } from "../lib/config";
 
 const AuthTokenResponse = z.object({
   access_token: z.string(),
@@ -10,7 +10,7 @@ export const getAuthToken = async (code: string) => {
   const tokenResponse = await fetch("http://localhost:3000/auth/token/new", {
     method: "POST",
     headers: {
-      ...commonHeaders,
+      ...getTracingHeader(),
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
