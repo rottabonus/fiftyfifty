@@ -8,7 +8,3 @@ export const User = z.object({
   family_name: z.string(),
   picture: z.string(),
 });
-
-export const UserRequest = z.object({
-  code: z.string(),
-});

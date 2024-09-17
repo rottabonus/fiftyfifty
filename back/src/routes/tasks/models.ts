@@ -19,7 +19,7 @@ export const CreateTask = z.object({
   assignee: z.string(),
 });
 
-export const Task = z.union([DbTask, CreateTask]);
+export const Task = z.intersection(DbTask, CreateTask);
 
 export const TasksQueryResult = z.array(Task);
 

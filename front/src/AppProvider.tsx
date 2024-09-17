@@ -1,5 +1,5 @@
 import React from "react";
-import { App } from "./App";
+import { Unauthenticated } from "./Unauthenticated";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const AppProvider = () => {
@@ -7,7 +7,7 @@ export const AppProvider = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <App />
+      <Unauthenticated />
     </QueryClientProvider>
   );
 };

@@ -8,11 +8,10 @@ import cors from "@fastify/cors";
 import traceLogger from "./src/plugins/traceLogger.js";
 import swagger from "./src/plugins/swagger.js";
 import pgClient from "./src/plugins/pgClient.js";
-import jwksVerify from "./src/plugins/jwksVerify.js";
 import fastifyStatic from "@fastify/static";
 import { toWwwHtmlDir } from "./src/lib/utils.js";
 import { getHealth } from "./src/routes/health/get.js";
-import { getUser } from "./src/routes/user/getUser.js";
+import { getUser } from "./src/routes/user/get.js";
 import { getTasks } from "./src/routes/tasks/get.js";
 import { postTask } from "./src/routes/tasks/post.js";
 import { getAuthUrl } from "./src/routes/auth/getAuthUrl.js";
@@ -35,7 +34,6 @@ await fastify.register(cors, {
 fastify.register(traceLogger);
 fastify.register(swagger);
 fastify.register(pgClient);
-fastify.register(jwksVerify);
 
 // Routes
 fastify.register(fastifyStatic, {

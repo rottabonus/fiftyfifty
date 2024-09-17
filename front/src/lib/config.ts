@@ -33,11 +33,11 @@ export const toEnvironment = (data: null | string): ENVIRONMENT => {
   return "none";
 };
 
-export const commonHeaders = {
+export const getTracingHeader = () => ({
   ["x-tracing-id"]: newUid(),
-};
+});
 
 export const getAccessToken = () => {
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("access_token");
   return { Authorization: `Bearer ${accessToken}` };
 };
