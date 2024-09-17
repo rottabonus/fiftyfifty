@@ -9,8 +9,6 @@ export const TasksList = () => {
     queryFn: () => getTasks(),
   });
 
-  console.log("data", data);
-
   return (
     <div>
       <ol>{data?.tasks.map((task) => <li key={task.id}>{task.name}</li>)}</ol>

@@ -39,10 +39,7 @@ export const getAuthToken = async (fastify: FastifyInstance) => {
           method: "post",
           body: JSON.stringify(tokenRequest),
         });
-
         const tokensJson = await tokens.json();
-        console.log(tokensJson);
-        authLogger.debug(tokensJson, "Got tokens");
 
         const parsed = TokenResponse.safeParse(tokensJson);
         if (parsed.success) {

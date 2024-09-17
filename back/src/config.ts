@@ -18,4 +18,5 @@ export const config = {
     database: String(process.env.PGDATABASE),
     host: String(process.env.PGHOST),
   },
+  allowedUsers: String(process.env.ALLOWED_USERS).split(","),
 };
