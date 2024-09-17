@@ -20,17 +20,13 @@ export const getUser = async (fastify: FastifyInstance) => {
       const userLogger = fastify.log.child({
         tracingId,
       });
-      const accessToken = getToken(request.headers);
-      const userInfoUrl = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`;
-
       userLogger.info("Starting to handle getUser-request");
-      userLogger.debug(userInfoUrl, "Created userinfo-url");
 
       try {
+        const accessToken = getToken(request.headers);
+        const userInfoUrl = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`;
         const userInfo = await fetch(userInfoUrl);
-
         const userJson = await userInfo.json();
-        userLogger.debug(userJson, "got user");
 
         const parsed = User.safeParse(userJson);
         if (parsed.success) {

@@ -9,6 +9,7 @@ import traceLogger from "./src/plugins/traceLogger.js";
 import swagger from "./src/plugins/swagger.js";
 import pgClient from "./src/plugins/pgClient.js";
 import fastifyStatic from "@fastify/static";
+import tokenVerify from "./src/plugins/tokenVerify.js";
 import { toWwwHtmlDir } from "./src/lib/utils.js";
 import { getHealth } from "./src/routes/health/get.js";
 import { getUser } from "./src/routes/user/get.js";
@@ -34,6 +35,7 @@ await fastify.register(cors, {
 fastify.register(traceLogger);
 fastify.register(swagger);
 fastify.register(pgClient);
+fastify.register(tokenVerify);
 
 // Routes
 fastify.register(fastifyStatic, {
