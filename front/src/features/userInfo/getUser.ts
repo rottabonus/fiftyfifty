@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { getTracingHeader, getAccessToken } from "../lib/config";
+import type { ENVIRONMENT } from "../../lib/config";
+import { getTracingHeader, getAccessToken, config } from "../../lib/config";
 
 export const User = z.object({
   name: z.string(),
@@ -12,8 +13,8 @@ export const User = z.object({
 
 export type User = z.infer<typeof User>;
 
-export const getUser = async () => {
-  const userResponse = await fetch("http://localhost:3000/user", {
+export const getUser = async (environment: ENVIRONMENT) => {
+  const userResponse = await fetch(`${config[environment].baseUrl}/user`, {
     method: "get",
     headers: {
       "Content-Type": "application/json",

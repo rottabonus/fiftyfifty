@@ -1,10 +1,12 @@
 import React from "react";
-import { useAuthentication } from "./lib/useAuthentication";
+import { useAuthentication } from "./features/useAuthentication";
 
 import { App } from "./App";
+import { useEnvironment } from "./features/envContext/useEnvironment";
 
 export const Unauthenticated = () => {
-  const { login, isAuthenticated } = useAuthentication();
+  const environment = useEnvironment();
+  const { login, isAuthenticated } = useAuthentication(environment);
 
   return (
     <div>

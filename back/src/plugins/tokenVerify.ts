@@ -16,7 +16,7 @@ const TokenInfo = z.object({
   expires_in: z.string(),
   email: z.string(),
   email_verified: z.string(),
-  access_type: z.literal("offline"),
+  access_type: z.union([z.literal("online"), z.literal("offline")]),
 });
 
 export default fp((fastify, _opts, done) => {
@@ -55,7 +55,6 @@ const verifyToken = async (
   );
 
   const tokenJson = await tokenInfo.json();
-  console.log("tokenJson", tokenJson);
 
   const parsed = TokenInfo.safeParse(tokenJson);
   if (parsed.error) {
@@ -68,6 +67,7 @@ const verifyToken = async (
 
   const isAllowedUser = config.allowedUsers.includes(parsed.data.email);
   const isNotExpired = Number(parsed.data.expires_in) > 0;
+  traceLogger.debug({ isAllowedUser, isNotExpired }, "verified claims");
 
   return isAllowedUser && isNotExpired;
 };
