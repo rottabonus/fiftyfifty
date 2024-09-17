@@ -18,7 +18,7 @@ export const useAuthentication = () => {
   };
 
   React.useEffect(() => {
-    // Parse id from referrer or url
+    // Parse authorizatiokn-code from redirect-uri
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
     if (code) {
