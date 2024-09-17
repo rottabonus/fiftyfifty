@@ -15,6 +15,7 @@ import { getHealth } from "./src/routes/health/get.js";
 import { getUser } from "./src/routes/user/get.js";
 import { getTasks } from "./src/routes/tasks/get.js";
 import { postTask } from "./src/routes/tasks/post.js";
+import { putTask } from "./src/routes/tasks/put.js";
 import { getAuthUrl } from "./src/routes/auth/getAuthUrl.js";
 import { getAuthToken } from "./src/routes/auth/getToken.js";
 
@@ -44,6 +45,7 @@ fastify.register(fastifyStatic, {
 fastify.register(getUser);
 fastify.register(getHealth);
 fastify.register(getTasks);
+fastify.register(putTask);
 fastify.register(postTask);
 fastify.register(getAuthUrl);
 fastify.register(getAuthToken);
