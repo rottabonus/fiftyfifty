@@ -25,7 +25,7 @@ export const getTasks = async (fastify: FastifyInstance) => {
       tasksLogger.info("Starting to handle getTasks-request");
 
       try {
-        const query = "select * from tasks";
+        const query = "SELECT * FROM tasks";
 
         const tasksResult = await fastify.pgQuery({
           query,

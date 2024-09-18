@@ -24,22 +24,23 @@ export const putTask = async (fastify: FastifyInstance) => {
         tracingId,
       });
       const { id } = request.params;
-      const { name, assignee, createdAt, dueDate, done } = request.body;
+      const { name, assigneeId, createdAt, dueDate, comment, done } =
+        request.body;
 
       tasksLogger.info("Starting to handle putTask-request");
 
       try {
         const query = `
           UPDATE tasks
-          SET name = $1, assignee = $2, "createdAt" = $3, "dueDate" = $4, done = $5
-          WHERE id = $6
-          RETURNING id, name, assignee, "createdAt", "dueDate", done;
+          SET name = $1, assigneeId = $2, "createdAt" = $3, "dueDate" = $4, comment = $5, done = $6
+          WHERE id = $7
+          RETURNING id, name, assigneeId, "createdAt", "dueDate", done;
         `;
 
         const taskResult = await fastify.pgQuery({
           query,
           model: TasksQueryResult,
-          values: [name, assignee, createdAt, dueDate, done, id],
+          values: [name, assigneeId, createdAt, dueDate, comment, done, id],
           traceLogger: tasksLogger,
         });
         if (taskResult.isOk) {

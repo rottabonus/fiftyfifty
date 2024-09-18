@@ -3,6 +3,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { User } from "./models.js";
 import { getTracingHeader, getToken } from "../../lib/utils.js";
+import { getUserInfo } from "../../lib/getUserInfo.js";
 
 export const getUser = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
@@ -24,11 +25,8 @@ export const getUser = async (fastify: FastifyInstance) => {
 
       try {
         const accessToken = getToken(request.headers);
-        const userInfoUrl = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`;
-        const userInfo = await fetch(userInfoUrl);
-        const userJson = await userInfo.json();
+        const parsed = await getUserInfo(accessToken);
 
-        const parsed = User.safeParse(userJson);
         if (parsed.success) {
           return reply.code(200).send(parsed.data);
         }

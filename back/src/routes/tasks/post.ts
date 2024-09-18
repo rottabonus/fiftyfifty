@@ -27,15 +27,15 @@ export const postTask = async (fastify: FastifyInstance) => {
 
       try {
         const query = `
-          INSERT INTO tasks (name, assignee)
+          INSERT INTO tasks (name, assigneeId)
           VALUES ($1, $2)
-          RETURNING id, name, "createdAt", "dueDate", assignee, done;
+          RETURNING id, name, "createdAt", "dueDate", assigneeId, comment, done;
         `;
 
         const taskResult = await fastify.pgQuery({
           query,
           model: TasksQueryResult,
-          values: [request.body.name, request.body.assignee],
+          values: [request.body.name, request.body.assigneeId],
           traceLogger: tasksLogger,
         });
         if (taskResult.isOk) {
