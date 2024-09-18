@@ -13,7 +13,8 @@ const Task = z.object({
   createdAt: timestampSchema,
   dueDate: timestampSchema,
   done: z.boolean(),
-  assignee: z.string(),
+  comment: z.string(),
+  assigneeId: z.number(),
 });
 
 export const TasksResponse = z.object({

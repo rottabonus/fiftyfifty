@@ -1,5 +1,5 @@
 import React from "react";
-import type { Task } from "../getTasks";
+import type { Task } from "../api/models";
 
 import { useDebounce } from "../../../lib/useDebounce";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
