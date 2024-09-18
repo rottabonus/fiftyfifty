@@ -69,10 +69,10 @@ export const getAuthToken = async (fastify: FastifyInstance) => {
 
         // insert user or update lastLogin
         const query = `
-            INSERT INTO users (name, email)
-            VALUES ($1, $2)
+            INSERT INTO users (name, email, "lastLogin")
+            VALUES ($1, $2, CURRENT_TIMESTAMP)
             ON CONFLICT (email) 
-            DO UPDATE SET lastLogin = EXCLUDED.lastLogin
+            DO UPDATE SET "lastLogin" = EXCLUDED."lastLogin"
             RETURNING id, name, email, "createdAt", "lastLogin";
           `;
         const values = [userParsed.data.name, userParsed.data.email];

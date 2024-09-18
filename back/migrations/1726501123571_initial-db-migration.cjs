@@ -13,28 +13,28 @@ exports.up = (pgm) => {
     id: 'id',
     name: { type: 'varchar(1000)', notNull: true },
     createdAt: {
-      type: 'timestamp',
+      type: 'timestamptz',
       notNull: true,
       default: pgm.func('current_timestamp')
     },
     lastLogin: {
-      type: 'timestamp',
+      type: 'timestamptz',
       notNull: true,
       default: pgm.func('current_timestamp')
     },
-    email: { type: 'varchar(1000)', notNull: false },
+    email: { type: 'varchar(1000)', notNull: true, unique: true },
   });
   pgm.createTable('tasks', {
     id: 'id',
     assigneeId: { type: 'integer', notNull: false, references: '"users"', onDelete: 'cascade' },
     name: { type: 'varchar(1000)', notNull: true },
     createdAt: {
-      type: 'timestamp',
+      type: 'timestamptz',
       notNull: true,
       default: pgm.func('current_timestamp')
     },
     dueDate: {
-      type: 'timestamp',
+      type: 'timestamptz',
       notNull: true,
       default: pgm.func("current_timestamp + interval '7 days'")
     },
