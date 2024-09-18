@@ -18,3 +18,9 @@ export const HealthResponse = z.object({
   memory: Memory,
   pgConnection: Health,
 });
+
+export const Select1Response = z.array(
+  z.object({
+    success: z.number(),
+  }),
+);
