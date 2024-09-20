@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-// const Health = z.object({
-//   healthy: z.boolean(),
-//   error: z.string().optional(),
-// });
+const Health = z.object({
+  healthy: z.boolean(),
+  error: z.string().optional(),
+});
 
 const Memory = z.object({
   rss: z.number(),
@@ -16,4 +16,11 @@ const Memory = z.object({
 export const HealthResponse = z.object({
   up: z.number(),
   memory: Memory,
+  pgConnection: Health,
 });
+
+export const Select1Response = z.array(
+  z.object({
+    success: z.number(),
+  }),
+);

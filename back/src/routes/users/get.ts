@@ -1,47 +1,46 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { Tasks, TasksQueryResult } from "./models.js";
+import { UsersQueryResult } from "./models.js";
 import { getTracingHeader } from "../../lib/utils.js";
 
-export const getTasks = async (fastify: FastifyInstance) => {
+export const getUsers = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
-    url: "/tasks",
+    url: "/users",
     schema: {
       response: {
-        200: Tasks,
-        400: z.object({ error: z.string() }),
+        200: UsersQueryResult,
         500: z.object({ error: z.unknown() }),
       },
     },
     handler: async (request, reply) => {
       const { tracingId, key } = getTracingHeader(request.headers);
       reply.header(key, tracingId);
-      const tasksLogger = fastify.log.child({
+      const usersLogger = fastify.log.child({
         tracingId,
       });
-
-      tasksLogger.info("Starting to handle getTasks-request");
+      usersLogger.info("Starting to handle getUsers-request");
 
       try {
-        const query = "SELECT * FROM tasks";
+        const query = "SELECT * FROM users";
 
-        const tasksResult = await fastify.pgQuery({
+        const usersResult = await fastify.pgQuery({
           query,
-          model: TasksQueryResult,
+          model: UsersQueryResult,
           values: [],
-          traceLogger: tasksLogger,
+          traceLogger: usersLogger,
         });
-        if (tasksResult.isOk) {
-          return reply.code(200).send({ tasks: tasksResult.data });
+        if (usersResult.isOk) {
+          return reply.code(200).send(usersResult.data);
         }
 
+        usersLogger.error({ error: usersResult.data }, "Error parsing users");
         return reply
           .code(400)
-          .send({ error: "Error querying data from database" });
+          .send({ error: "Erorr querying data from database" });
       } catch (error) {
-        tasksLogger.error({ error }, "Error handling request");
+        usersLogger.error({ error }, "Error handling request");
         reply.code(500).send({ error: JSON.stringify(error) });
       }
     },

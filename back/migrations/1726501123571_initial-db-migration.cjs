@@ -9,22 +9,38 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable('tasks', {
+  pgm.createTable('users', {
     id: 'id',
     name: { type: 'varchar(1000)', notNull: true },
     createdAt: {
-      type: 'timestamp',
+      type: 'timestamptz',
+      notNull: true,
+      default: pgm.func('current_timestamp')
+    },
+    lastLogin: {
+      type: 'timestamptz',
+      notNull: true,
+      default: pgm.func('current_timestamp')
+    },
+    email: { type: 'varchar(1000)', notNull: true, unique: true },
+  });
+  pgm.createTable('tasks', {
+    id: 'id',
+    assigneeId: { type: 'integer', notNull: false, references: '"users"', onDelete: 'cascade' },
+    name: { type: 'varchar(1000)', notNull: true },
+    createdAt: {
+      type: 'timestamptz',
       notNull: true,
       default: pgm.func('current_timestamp')
     },
     dueDate: {
-      type: 'timestamp',
+      type: 'timestamptz',
       notNull: true,
       default: pgm.func("current_timestamp + interval '7 days'")
     },
     done: { type: 'boolean', notNull: true, default: 'false' },
-    assignee: { type: 'varchar(1000)', notNull: false }
-  })
+    comment: { type: 'varchar(1000)', notNull: false }
+  });
 };
 
 /**
@@ -33,5 +49,6 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable('tasks')
+  pgm.dropTable('tasks');
+  pgm.dropTable('users');
 };

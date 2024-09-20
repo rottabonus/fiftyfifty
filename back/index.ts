@@ -12,12 +12,13 @@ import fastifyStatic from "@fastify/static";
 import tokenVerify from "./src/plugins/tokenVerify.js";
 import { toWwwHtmlDir } from "./src/lib/utils.js";
 import { getHealth } from "./src/routes/health/get.js";
-import { getUser } from "./src/routes/user/get.js";
 import { getTasks } from "./src/routes/tasks/get.js";
 import { postTask } from "./src/routes/tasks/post.js";
 import { putTask } from "./src/routes/tasks/put.js";
 import { getAuthUrl } from "./src/routes/auth/getAuthUrl.js";
 import { getAuthToken } from "./src/routes/auth/getToken.js";
+import { getUsers } from "./src/routes/users/get.js";
+import { getGoogleUser } from "./src/routes/googleUser/get.js";
 
 const fastify = Fastify({
   logger: {
@@ -42,7 +43,8 @@ fastify.register(tokenVerify);
 fastify.register(fastifyStatic, {
   root: toWwwHtmlDir(import.meta.url),
 });
-fastify.register(getUser);
+fastify.register(getGoogleUser);
+fastify.register(getUsers);
 fastify.register(getHealth);
 fastify.register(getTasks);
 fastify.register(putTask);

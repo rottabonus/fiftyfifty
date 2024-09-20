@@ -1,16 +1,17 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { User } from "./models.js";
+import { GoogleUser } from "./models.js";
 import { getTracingHeader, getToken } from "../../lib/utils.js";
+import { getGoogleUserInfo } from "../../lib/getGoogleUserInfo.js";
 
-export const getUser = async (fastify: FastifyInstance) => {
+export const getGoogleUser = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
     url: "/user",
     schema: {
       response: {
-        200: User,
+        200: GoogleUser,
         500: z.object({ error: z.unknown() }),
       },
     },
@@ -20,15 +21,12 @@ export const getUser = async (fastify: FastifyInstance) => {
       const userLogger = fastify.log.child({
         tracingId,
       });
-      userLogger.info("Starting to handle getUser-request");
+      userLogger.info("Starting to handle getGoogleUser-request");
 
       try {
         const accessToken = getToken(request.headers);
-        const userInfoUrl = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`;
-        const userInfo = await fetch(userInfoUrl);
-        const userJson = await userInfo.json();
+        const parsed = await getGoogleUserInfo(accessToken);
 
-        const parsed = User.safeParse(userJson);
         if (parsed.success) {
           return reply.code(200).send(parsed.data);
         }
