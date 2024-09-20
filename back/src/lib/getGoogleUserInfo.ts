@@ -1,4 +1,4 @@
-import { GoogleUser } from "../routes/googleUser/models.js";
+import { GoogleUser } from "../routes/user/models.js";
 
 export const getGoogleUserInfo = async (accessToken: string) => {
   const userInfoUrl = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`;

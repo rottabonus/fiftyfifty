@@ -1,15 +1,17 @@
 import { z } from "zod";
+import { timestampSchema } from "../../lib/commonModels";
 import type { ENVIRONMENT } from "../../lib/config";
 import { getTracingHeader, getAccessToken, config } from "../../lib/config";
 
 export const User = z.object({
+  id: z.number(),
   name: z.string(),
   email: z.string(),
-  email_verified: z.boolean(),
-  given_name: z.string(),
-  family_name: z.string(),
-  picture: z.string(),
+  lastLogin: timestampSchema,
+  createdAt: timestampSchema,
 });
+
+const UserResponse = z.object({ user: User });
 
 export type User = z.infer<typeof User>;
 
@@ -24,7 +26,7 @@ export const getUser = async (environment: ENVIRONMENT) => {
   });
   const userJson = await userResponse.json();
 
-  const parsed = User.safeParse(userJson);
+  const parsed = UserResponse.safeParse(userJson);
   if (parsed.success) {
     return parsed.data;
   }

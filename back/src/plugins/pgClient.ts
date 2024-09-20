@@ -47,7 +47,6 @@ export default fp(async (fastify, _opts) => {
     }: PgQueryParams<T>): Promise<Result<T>> => {
       traceLogger?.debug(query, "Starting to query from pg");
       const result = await pgClient.query(query, values);
-      traceLogger?.debug(result);
       const parsed = model.safeParse(result.rows);
       if (parsed.success) {
         traceLogger?.debug("Got data from pg");
