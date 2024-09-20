@@ -1,5 +1,6 @@
 import React from "react";
 import { getUser } from "./getUser";
+import { getAccessToken } from "../../lib/config";
 import { useQuery } from "@tanstack/react-query";
 import { useEnvironment } from "../envContext/useEnvironment";
 import { Socket, io } from "socket.io-client";
@@ -13,18 +14,28 @@ interface ClientToServerEvents {}
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3000",
-  { autoConnect: false },
+  {
+    autoConnect: false,
+    extraHeaders: { authorization: String(getAccessToken()) },
+  },
 );
+
+// TODO:
+// - User id is added to session
+// - Initial tasks can be fetched with GET
+// - Use socket connection to make changes to tasks
+// - When changes are made to tasks, new tasks are broadcasted to the pool
 
 export const UserInfo = () => {
   const [isConnected, setIsConnected] = React.useState(false);
+
   const handleConnect = () => {
-    socket.auth = { username: data?.user.name };
+    // add userID to auth!
+    socket.auth = { name: data?.user.name, userId: data?.user.id };
     socket.connect();
   };
 
   const handleDisconnect = () => {
-    console.log("did this??");
     setIsConnected(false);
     socket.disconnect();
   };

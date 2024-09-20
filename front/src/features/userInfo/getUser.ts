@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { timestampSchema } from "../../lib/commonModels";
 import type { ENVIRONMENT } from "../../lib/config";
-import { getTracingHeader, getAccessToken, config } from "../../lib/config";
+import { getTracingHeader, getAuthHeader, config } from "../../lib/config";
 
 export const User = z.object({
   id: z.number(),
@@ -21,7 +21,7 @@ export const getUser = async (environment: ENVIRONMENT) => {
     headers: {
       "Content-Type": "application/json",
       ...getTracingHeader(),
-      ...getAccessToken(),
+      ...getAuthHeader(),
     },
   });
   const userJson = await userResponse.json();

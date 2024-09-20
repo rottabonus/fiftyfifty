@@ -37,7 +37,8 @@ export const getTracingHeader = () => ({
   ["x-tracing-id"]: newUid(),
 });
 
-export const getAccessToken = () => {
-  const accessToken = sessionStorage.getItem("access_token");
-  return { Authorization: `Bearer ${accessToken}` };
-};
+export const getAccessToken = () => sessionStorage.getItem("access_token");
+
+export const getAuthHeader = () => ({
+  Authorization: `Bearer ${getAccessToken()}`,
+});

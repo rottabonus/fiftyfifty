@@ -10,7 +10,7 @@ import swagger from "./src/plugins/swagger.js";
 import pgClient from "./src/plugins/pgClient.js";
 import fastifyStatic from "@fastify/static";
 import tokenVerify from "./src/plugins/tokenVerify.js";
-import webSocket from "./src/plugins/webSocket.js";
+import io from "./src/plugins/socketIo.js";
 import { toWwwHtmlDir } from "./src/lib/utils.js";
 import { getHealth } from "./src/routes/health/get.js";
 import { getTasks } from "./src/routes/tasks/get.js";
@@ -40,7 +40,7 @@ fastify.register(traceLogger);
 fastify.register(swagger);
 fastify.register(pgClient);
 fastify.register(tokenVerify);
-fastify.register(webSocket);
+fastify.register(io);
 
 // Routes
 fastify.register(fastifyStatic, {

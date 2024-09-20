@@ -3,9 +3,13 @@ import { TokenInfo } from "../plugins/tokenVerify.js";
 import { config } from "../config.js";
 
 export const verifyToken = async (
-  accessToken: string,
-  traceLogger: FastifyBaseLogger,
+  accessToken?: string,
+  traceLogger?: FastifyBaseLogger,
 ) => {
+  if (!accessToken) {
+    return false;
+  }
+
   const tokenInfo = await fetch(
     `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`,
   );
@@ -14,7 +18,7 @@ export const verifyToken = async (
 
   const parsed = TokenInfo.safeParse(tokenJson);
   if (parsed.error) {
-    traceLogger.error(
+    traceLogger?.error(
       { error: parsed.error },
       "Error parsing tokenInfo response",
     );
@@ -23,7 +27,7 @@ export const verifyToken = async (
 
   const isAllowedUser = config.allowedUsers.includes(parsed.data.email);
   const isNotExpired = Number(parsed.data.expires_in) > 0;
-  traceLogger.debug({ isAllowedUser, isNotExpired }, "verified claims");
+  traceLogger?.debug({ isAllowedUser, isNotExpired }, "verified claims");
 
   return isAllowedUser && isNotExpired;
 };
