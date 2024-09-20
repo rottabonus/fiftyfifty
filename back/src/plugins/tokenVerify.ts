@@ -4,7 +4,7 @@ import { z } from "zod";
 import { verifyToken } from "../lib/verifyToken.js";
 
 // Only protect routes that are out of the google-system
-const protectedResources = ["/tasks", "/task"];
+const protectedResources = ["/tasks", "/task", "/users"];
 
 export const TokenInfo = z.object({
   azp: z.string(),

@@ -5,7 +5,7 @@ import { TokenRequest, TokenResponse } from "./models.js";
 import { getTracingHeader } from "../../lib/utils.js";
 import { config } from "../../config.js";
 import { verifyToken } from "../../lib/verifyToken.js";
-import { getUserInfo } from "../../lib/getUserInfo.js";
+import { getGoogleUserInfo } from "../../lib/getGoogleUserInfo.js";
 
 export const getAuthToken = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().route({
@@ -59,8 +59,10 @@ export const getAuthToken = async (fastify: FastifyInstance) => {
           return reply.code(403).send({ error: "Unauthorized" });
         }
 
-        // get user info
-        const userParsed = await getUserInfo(tokenParsed.data.access_token);
+        // get google-user info
+        const userParsed = await getGoogleUserInfo(
+          tokenParsed.data.access_token,
+        );
         if (!userParsed.success) {
           return reply.code(500).send({
             error: `Could not parse userinfo: ${JSON.stringify(userParsed.error)} `,
