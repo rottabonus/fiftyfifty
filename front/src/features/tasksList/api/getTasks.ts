@@ -1,5 +1,5 @@
 import type { ENVIRONMENT } from "../../../lib/config";
-import { getTracingHeader, getAccessToken, config } from "../../../lib/config";
+import { getTracingHeader, getAuthHeader, config } from "../../../lib/config";
 import { TasksResponse } from "./models";
 
 export const getTasks = async (environment: ENVIRONMENT) => {
@@ -7,7 +7,7 @@ export const getTasks = async (environment: ENVIRONMENT) => {
     method: "get",
     headers: {
       ...getTracingHeader(),
-      ...getAccessToken(),
+      ...getAuthHeader(),
     },
   });
   const tasksJson = await tasksResponse.json();

@@ -19,4 +19,5 @@ export const config = {
     host: String(process.env.PGHOST),
   },
   allowedUsers: String(process.env.ALLOWED_USERS).split(","),
+  sessionId: Number(process.env.SESSION_ID),
 };

@@ -1,6 +1,6 @@
 import type { ENVIRONMENT } from "../../../lib/config";
 import type { Task } from "./models";
-import { getTracingHeader, getAccessToken, config } from "../../../lib/config";
+import { getTracingHeader, getAuthHeader, config } from "../../../lib/config";
 import { TasksResponse } from "./models";
 
 export const putTask = async (task: Task, environment: ENVIRONMENT) => {
@@ -12,7 +12,7 @@ export const putTask = async (task: Task, environment: ENVIRONMENT) => {
       headers: {
         "Content-Type": "application/json",
         ...getTracingHeader(),
-        ...getAccessToken(),
+        ...getAuthHeader(),
       },
     },
   );

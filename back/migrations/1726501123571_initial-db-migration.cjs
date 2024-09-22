@@ -41,6 +41,12 @@ exports.up = (pgm) => {
     done: { type: 'boolean', notNull: true, default: 'false' },
     comment: { type: 'varchar(1000)', notNull: false }
   });
+  pgm.createTable('sessions', {
+    id: 'id',
+    userId: { type: 'integer', notNull: true, references: '"users"', onDelete: 'cascade', unique: true },
+    sessionId: { type: 'integer', notNull: true },
+    connected: { type: 'boolean', notNull: true },
+  });
 };
 
 /**
@@ -50,5 +56,6 @@ exports.up = (pgm) => {
  */
 exports.down = (pgm) => {
   pgm.dropTable('tasks');
+  pgm.dropTable('sessions');
   pgm.dropTable('users');
 };
