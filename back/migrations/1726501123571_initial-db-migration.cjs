@@ -43,9 +43,9 @@ exports.up = (pgm) => {
   });
   pgm.createTable('sessions', {
     id: 'id',
-    userId: { type: 'integer', notNull: true, references: '"users"', onDelete: 'cascade' },
+    userId: { type: 'integer', notNull: true, references: '"users"', onDelete: 'cascade', unique: true },
     sessionId: { type: 'integer', notNull: true },
-    connected: { type: 'varchar(1000)', notNull: true },
+    connected: { type: 'boolean', notNull: true },
   });
 };
 
