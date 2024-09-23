@@ -1,20 +1,19 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getTasks } from "./api/getTasks";
-import { useEnvironment } from "../envContext/useEnvironment";
 import { Item } from "./components/Item";
+import { useTaskSocket } from "../socketContext/useTaskSocket";
+import { NewTask } from "./components/NewTask";
 
 export const TasksList = () => {
-  const environment = useEnvironment();
-  const { data } = useQuery({
-    queryKey: ["tasks"],
-    refetchOnWindowFocus: false,
-    queryFn: () => getTasks(environment),
-  });
+  const { tasks, updateTask } = useTaskSocket();
 
   return (
-    <div>
-      <ol>{data?.tasks.map((task) => <Item key={task.id} task={task} />)}</ol>
+    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <ol>
+        {tasks.map((task) => (
+          <Item key={task.id} task={task} updateTask={updateTask} />
+        ))}
+      </ol>
+      <NewTask />
     </div>
   );
 };

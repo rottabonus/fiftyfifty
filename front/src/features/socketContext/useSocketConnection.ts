@@ -1,5 +1,5 @@
 import React from "react";
-import { useSocket } from "./SocketContext";
+import { useSocket } from ".";
 import type { UserType } from "./types";
 import { User } from "../userInfo/getUser";
 
@@ -26,7 +26,7 @@ export const useSocketConnection = (user?: User) => {
         if (isMe) {
           setIsConnected(true);
         }
-        console.log("User connected:", user);
+        console.log("User connected:", socketUser);
       };
 
       const handleUserDisconnected = (socketUser: UserType) => {
@@ -37,7 +37,7 @@ export const useSocketConnection = (user?: User) => {
         if (isMe) {
           setIsConnected(false);
         }
-        console.log("User disconnected:", user);
+        console.log("User disconnected:", socketUser);
       };
 
       // Listen for user connection events

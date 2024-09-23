@@ -7,7 +7,7 @@ export const session = async (fastify: FastifyInstance) => {
   // connection-handler
   fastify.io.on("connection", async (socket) => {
     const socketLogger = fastify.log.child({
-      tracingId: `user-${socket.handshake.auth.userId}-socket-connection`,
+      tracingId: `user-${socket.handshake.auth.userId}-socket-session`,
     });
     socketLogger.info("Connection established");
     const user = toUser(socket.handshake.auth);

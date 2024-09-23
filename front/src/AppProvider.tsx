@@ -3,7 +3,7 @@ import type { ENVIRONMENT } from "./lib/config";
 import { EnvironmentProvider } from "./features/envContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Unauthenticated } from "./Unauthenticated";
-import { SocketProvider } from "./features/socketContext/SocketContext";
+import { SocketProvider } from "./features/socketContext";
 
 type Props = {
   environment: ENVIRONMENT;

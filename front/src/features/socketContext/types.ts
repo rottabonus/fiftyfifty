@@ -1,4 +1,4 @@
-import { Task, User } from "./models.js";
+import type { CreateTask, Task, User } from "./models.js";
 import { Socket } from "socket.io-client";
 import { z } from "zod";
 
@@ -10,12 +10,14 @@ export type UserType = z.infer<typeof User>;
 export interface ServerToClientEvents {
   ["tasks:get"]: (tasks: Array<Task>) => void;
   ["task:updated"]: (task: Task) => void;
+  ["task:created"]: (task: Task) => void;
   ["user:connected"]: (user: UserType) => void;
   ["user:disconnected"]: (user: UserType) => void;
 }
 
 export interface ClientToServerEvents {
   ["task:update"]: (data: Task) => void;
+  ["task:new"]: (data: CreateTask) => void;
 }
 
 export interface InterServerEvents {

@@ -5,14 +5,15 @@ const DbTask = z.object({
   id: z.number(),
   createdAt: timestampSchema,
   dueDate: timestampSchema,
-  comment: z.string(),
+  comment: z.nullable(z.string()),
   done: z.boolean(),
 });
 
 export const CreateTask = z.object({
   name: z.string(),
-  assigneeId: z.number(),
+  assigneeId: z.nullable(z.number()),
 });
+export type CreateTask = z.infer<typeof CreateTask>;
 
 export const Task = z.intersection(DbTask, CreateTask);
 export type Task = z.infer<typeof Task>;
