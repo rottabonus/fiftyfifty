@@ -2,26 +2,14 @@ import React from "react";
 import type { Task } from "../api/models";
 
 import { useDebounce } from "../../../lib/useDebounce";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { putTask } from "../api/putTask";
-import { useEnvironment } from "../../envContext/useEnvironment";
 
 type Props = {
   task: Task;
+  updateTask: (task: Task) => void;
 };
 
-export const Item = ({ task }: Props) => {
+export const Item = ({ task, updateTask }: Props) => {
   const [localTaskName, setLocalTaskName] = React.useState(task.name);
-  const environment = useEnvironment();
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationFn: async (task: Task) => {
-      putTask(task, environment);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
-  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocalTaskName(event.target.value);
@@ -29,7 +17,7 @@ export const Item = ({ task }: Props) => {
   };
 
   const updateState = useDebounce((localValue: string) => {
-    mutate({ ...task, name: localValue });
+    updateTask({ ...task, name: localValue });
   }, 500);
 
   return (

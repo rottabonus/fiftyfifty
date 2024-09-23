@@ -11,14 +11,16 @@ export const UserInfo = () => {
     refetchOnWindowFocus: false,
     queryFn: () => getUser(environment),
   });
-  const { isConnected, connectedUsers } = useSocketConnection(data?.user);
-
-  console.log("isConnected", isConnected);
-  console.log("connectedUsers", connectedUsers);
+  const { isConnected } = useSocketConnection(data?.user);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      <h2>Hello, {data?.user.name}!</h2>
+      <div style={{ display: "flex", gap: "8px" }}>
+        <h2>Hello, </h2>
+        <h2 style={{ color: isConnected ? "green" : "red" }}>
+          {data?.user.name}!
+        </h2>
+      </div>
     </div>
   );
 };

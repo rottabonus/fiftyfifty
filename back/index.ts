@@ -15,9 +15,6 @@ import session from "./src/socketService/session/index.js";
 import tasks from "./src/socketService/tasks/index.js";
 import { toWwwHtmlDir } from "./src/lib/utils.js";
 import { getHealth } from "./src/routes/health/get.js";
-import { getTasks } from "./src/routes/tasks/get.js";
-import { postTask } from "./src/routes/tasks/post.js";
-import { putTask } from "./src/routes/tasks/put.js";
 import { getAuthUrl } from "./src/routes/auth/getAuthUrl.js";
 import { getAuthToken } from "./src/routes/auth/getToken.js";
 import { getUsers } from "./src/routes/users/get.js";
@@ -50,9 +47,6 @@ fastify.register(fastifyStatic, {
 fastify.register(getUser);
 fastify.register(getUsers);
 fastify.register(getHealth);
-fastify.register(getTasks);
-fastify.register(putTask);
-fastify.register(postTask);
 fastify.register(getAuthUrl);
 fastify.register(getAuthToken);
 
