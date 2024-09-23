@@ -1,5 +1,5 @@
 import React from "react";
-import { useSocket } from "./SocketContext";
+import { useSocket } from ".";
 import type { UserType } from "./types";
 import { User } from "../userInfo/getUser";
 

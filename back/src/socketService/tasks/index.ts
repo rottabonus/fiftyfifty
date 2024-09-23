@@ -5,7 +5,7 @@ export const tasks = async (fastify: FastifyInstance) => {
   // connection-handler
   fastify.io.on("connection", async (socket) => {
     const socketLogger = fastify.log.child({
-      tracingId: `user-${socket.handshake.auth.userId}-socket-connection`,
+      tracingId: `user-${socket.handshake.auth.userID}-socket-task`,
     });
 
     // get all tasks
@@ -28,9 +28,9 @@ export const tasks = async (fastify: FastifyInstance) => {
       socketLogger.info("Starting to put task-row");
       const query = `
         UPDATE tasks
-        SET name = $1, assigneeId = $2, "createdAt" = $3, "dueDate" = $4, comment = $5, done = $6
+        SET name = $1, "assigneeId" = $2, "createdAt" = $3, "dueDate" = $4, comment = $5, done = $6
         WHERE id = $7
-        RETURNING id, name, assigneeId, "createdAt", "dueDate", done;
+        RETURNING id, name, "assigneeId", "createdAt", "dueDate", comment, done;
       `;
 
       const { name, assigneeId, createdAt, dueDate, comment, done, id } = task;
@@ -45,6 +45,29 @@ export const tasks = async (fastify: FastifyInstance) => {
       } else {
         socket.emit("task:updated", taskResult.data[0]);
         socketLogger.info("Task updated and emitted");
+      }
+    });
+
+    // new task
+    socket.on("task:new", async (task) => {
+      socketLogger.info("Starting to post a task-row");
+      const query = `
+          INSERT INTO tasks (name, "assigneeId")
+          VALUES ($1, $2)
+          RETURNING id, name, "createdAt", "dueDate", "assigneeId", comment, done;
+        `;
+
+      const taskResult = await fastify.pgQuery({
+        query,
+        model: TasksQueryResult,
+        values: [task.name, task.assigneeId],
+        traceLogger: socketLogger,
+      });
+      if (!taskResult.isOk) {
+        socketLogger.error({ error: tasksResult.data }, "Error creating task");
+      } else {
+        socket.emit("task:created", taskResult.data[0]);
+        socketLogger.info("Task created and emitted");
       }
     });
   });

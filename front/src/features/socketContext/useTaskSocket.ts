@@ -1,6 +1,7 @@
 import React from "react";
-import { useSocket } from "./SocketContext";
+import { useSocket } from ".";
 import type { Task } from "./types";
+import type { CreateTask } from "./models";
 
 // Hook to handle task-related socket events
 export const useTaskSocket = () => {
@@ -8,38 +9,48 @@ export const useTaskSocket = () => {
   const [tasks, setTasks] = React.useState<Array<Task>>([]);
 
   const updateTask = (task: Task) => {
-    if (socket) {
-      socket.emit("task:update", task);
-    }
+    if (!socket) return;
+
+    socket.emit("task:update", task);
+  };
+
+  const createTask = (createTask: CreateTask) => {
+    if (!socket) return;
+
+    socket.emit("task:new", createTask);
   };
 
   // Listen to task events
   React.useEffect(() => {
-    if (socket) {
-      const handleTasksGet = (tasks: Array<Task>) => {
-        console.log("Tasks received from server:", tasks);
-        setTasks(tasks);
-      };
+    if (!socket) return;
 
-      const handleTaskUpdated = (task: Task) => {
-        console.log("Task updated from server:", task);
-        const updatedTasks = tasks.map((t) => (t.id === task.id ? task : t));
-        setTasks(updatedTasks);
-      };
+    socket.on("tasks:get", (tasks: Array<Task>) => {
+      console.log("Tasks received from server:", tasks);
+      setTasks(tasks);
+    });
 
-      socket.on("tasks:get", handleTasksGet);
-      socket.on("task:updated", handleTaskUpdated);
+    socket.on("task:updated", (task: Task) => {
+      console.log("Task updated from server:", task);
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t.id === task.id ? task : t)),
+      );
+    });
 
-      // Clean up
-      return () => {
-        socket.off("tasks:get", handleTasksGet);
-        socket.off("task:updated", handleTaskUpdated);
-      };
-    }
+    socket.on("task:created", (task: Task) => {
+      setTasks((prevTasks) => [...prevTasks, task]);
+    });
+
+    // Clean up
+    return () => {
+      socket.off("tasks:get");
+      socket.off("task:updated");
+      socket.off("task:created");
+    };
   }, [socket]);
 
   return {
     updateTask,
+    createTask,
     tasks,
   };
 };

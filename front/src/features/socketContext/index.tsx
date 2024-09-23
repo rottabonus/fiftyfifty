@@ -48,7 +48,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   React.useEffect(() => {
     return () => {
       if (socket) {
-        socket.disconnect(); // Clean up when component unmounts
+        socket.disconnect();
       }
     };
   }, [socket]);
