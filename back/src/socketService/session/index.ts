@@ -1,15 +1,17 @@
 import { FastifyInstance } from "fastify";
 import { config } from "../../config.js";
 import { SessionsQueryResult } from "./models.js";
+import { toUser } from "./mappers.js";
 
-export const startConnection = async (fastify: FastifyInstance) => {
+export const session = async (fastify: FastifyInstance) => {
   // connection-handler
   fastify.io.on("connection", async (socket) => {
     const socketLogger = fastify.log.child({
       tracingId: `user-${socket.handshake.auth.userId}-socket-connection`,
     });
     socketLogger.info("Connection established");
-    socket.emit("user:connected", socket.handshake.auth);
+    const user = toUser(socket.handshake.auth);
+    socket.emit("user:connected", user);
 
     // insert or update session
     const query = `
@@ -19,11 +21,10 @@ export const startConnection = async (fastify: FastifyInstance) => {
         DO UPDATE SET connected = true
         RETURNING id, "sessionId", "userId", connected;
       `;
-    const values = [config.sessionId, socket.handshake.auth.userId];
     const sessionResult = await fastify.pgQuery({
       query,
       model: SessionsQueryResult,
-      values,
+      values: [config.sessionId, user.userID],
       traceLogger: socketLogger,
     });
     if (!sessionResult.isOk) {
@@ -36,7 +37,7 @@ export const startConnection = async (fastify: FastifyInstance) => {
     // disconnect-handler
     socket.on("disconnect", async () => {
       socketLogger.info("Disconnected");
-      socket.broadcast.emit("user:disconnected", socket.handshake.auth);
+      socket.broadcast.emit("user:disconnected", user);
       // update session-info
       const query = `
           UPDATE sessions
@@ -44,11 +45,10 @@ export const startConnection = async (fastify: FastifyInstance) => {
           WHERE "userId" = $1
           RETURNING id, "sessionId", "userId", connected;
       `;
-      const values = [socket.handshake.auth.userId];
       const disconnectSessionResult = await fastify.pgQuery({
         query,
         model: SessionsQueryResult,
-        values,
+        values: [user.userID],
         traceLogger: socketLogger,
       });
       if (!disconnectSessionResult.isOk) {
@@ -60,3 +60,5 @@ export const startConnection = async (fastify: FastifyInstance) => {
     });
   });
 };
+
+export default session;

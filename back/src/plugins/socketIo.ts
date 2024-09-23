@@ -1,11 +1,12 @@
 import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
-import { Server } from "socket.io";
 import { verifyToken } from "../lib/verifyToken.js";
+import { SocketServer } from "../socketService/types.js";
+import { Server } from "socket.io";
 
 declare module "fastify" {
   interface FastifyInstance {
-    io: Server;
+    io: SocketServer;
   }
 }
 
