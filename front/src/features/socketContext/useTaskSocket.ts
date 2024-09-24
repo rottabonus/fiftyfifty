@@ -20,6 +20,12 @@ export const useTaskSocket = () => {
     socket.emit("task:new", createTask);
   };
 
+  const deleteTask = (id: number) => {
+    if (!socket) return;
+
+    socket.emit("task:delete", id);
+  };
+
   // Listen to task events
   React.useEffect(() => {
     if (!socket) return;
@@ -40,17 +46,23 @@ export const useTaskSocket = () => {
       setTasks((prevTasks) => [...prevTasks, task]);
     });
 
+    socket.on("task:deleted", (id: number) => {
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    });
+
     // Clean up
     return () => {
       socket.off("tasks:get");
       socket.off("task:updated");
       socket.off("task:created");
+      socket.off("task:deleted");
     };
   }, [socket]);
 
   return {
     updateTask,
     createTask,
+    deleteTask,
     tasks,
   };
 };

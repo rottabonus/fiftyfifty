@@ -7,7 +7,7 @@ import { Item } from "./components/Item";
 import { NewTask } from "./components/NewTask";
 
 export const TasksList = () => {
-  const { tasks, updateTask } = useTaskSocket();
+  const { tasks, updateTask, deleteTask } = useTaskSocket();
   const environment = useEnvironment();
   const { data } = useQuery({
     queryKey: ["users"],
@@ -23,6 +23,7 @@ export const TasksList = () => {
             key={task.id}
             task={task}
             updateTask={updateTask}
+            deleteTask={deleteTask}
             users={data?.users ?? []}
           />
         ))}

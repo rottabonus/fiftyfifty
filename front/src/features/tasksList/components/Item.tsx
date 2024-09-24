@@ -4,13 +4,16 @@ import type { User } from "../../userInfo/getUser";
 
 import { useDebounce } from "../../../lib/useDebounce";
 
+import { RiDeleteBin7Line } from "react-icons/ri";
+
 type Props = {
   task: Task;
   users: Array<User>;
   updateTask: (task: Task) => void;
+  deleteTask: (id: number) => void;
 };
 
-export const Item = ({ task, users, updateTask }: Props) => {
+export const Item = ({ task, users, updateTask, deleteTask }: Props) => {
   const [localTask, setLocalTask] = React.useState(task);
 
   const handleChange = <T extends keyof Task>(key: T, value: Task[T]) => {
@@ -19,7 +22,6 @@ export const Item = ({ task, users, updateTask }: Props) => {
   };
 
   const updateState = useDebounce((task: Task) => {
-    console.log("updating", task);
     updateTask(task);
   }, 500);
 
@@ -51,6 +53,9 @@ export const Item = ({ task, users, updateTask }: Props) => {
         checked={localTask.done}
         onChange={(e) => handleChange("done", e.target.checked)}
       />
+      <button style={{}} onClick={() => deleteTask(task.id)}>
+        <RiDeleteBin7Line />
+      </button>
     </li>
   );
 };
