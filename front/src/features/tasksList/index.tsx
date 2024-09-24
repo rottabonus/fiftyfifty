@@ -25,7 +25,6 @@ export const TasksList = () => {
       selected === null || selected.id === assigneeId;
 
   const filteredTasks = tasks.filter(apply(selectedUser));
-  console.log("filteredTasks", filteredTasks);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
