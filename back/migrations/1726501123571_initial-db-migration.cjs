@@ -36,7 +36,7 @@ exports.up = (pgm) => {
     dueDate: {
       type: 'timestamptz',
       notNull: true,
-      default: pgm.func("current_timestamp + interval '7 days'")
+      default: pgm.func("date_trunc('week', current_timestamp) + interval '6 days 23 hours 59 minutes 59 seconds'")
     },
     done: { type: 'boolean', notNull: true, default: 'false' },
     comment: { type: 'varchar(1000)', notNull: false }
