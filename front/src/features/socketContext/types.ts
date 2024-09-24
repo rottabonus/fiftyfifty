@@ -9,8 +9,9 @@ export type UserType = z.infer<typeof User>;
 
 export interface ServerToClientEvents {
   ["tasks:get"]: (tasks: Array<Task>) => void;
-  ["task:updated"]: (task: Task) => void;
   ["task:created"]: (task: Task) => void;
+  ["task:updated"]: (task: Task) => void;
+  ["task:deleted"]: (id: number) => void;
   ["user:connected"]: (user: UserType) => void;
   ["user:disconnected"]: (user: UserType) => void;
 }
@@ -18,6 +19,7 @@ export interface ServerToClientEvents {
 export interface ClientToServerEvents {
   ["task:update"]: (data: Task) => void;
   ["task:new"]: (data: CreateTask) => void;
+  ["task:delete"]: (id: number) => void;
 }
 
 export interface InterServerEvents {

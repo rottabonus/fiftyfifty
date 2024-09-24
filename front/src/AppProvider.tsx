@@ -12,12 +12,14 @@ export const AppProvider = ({ environment }: Props) => {
   const queryClient = new QueryClient();
 
   return (
-    <EnvironmentProvider environment={environment}>
-      <QueryClientProvider client={queryClient}>
-        <SocketProvider>
-          <Unauthenticated />
-        </SocketProvider>
-      </QueryClientProvider>
-    </EnvironmentProvider>
+    <React.StrictMode>
+      <EnvironmentProvider environment={environment}>
+        <QueryClientProvider client={queryClient}>
+          <SocketProvider>
+            <Unauthenticated />
+          </SocketProvider>
+        </QueryClientProvider>
+      </EnvironmentProvider>
+    </React.StrictMode>
   );
 };

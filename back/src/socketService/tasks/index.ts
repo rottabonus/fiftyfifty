@@ -74,6 +74,29 @@ export const tasks = async (fastify: FastifyInstance) => {
         socketLogger.info("Task created and emitted");
       }
     });
+
+    // delete a task
+    socket.on("task:delete", async (id) => {
+      socketLogger.info("Starting to delete a task-row");
+      const query = `
+          DELETE FROM tasks
+          WHERE id = $1
+          RETURNING *;
+        `;
+
+      const taskResult = await fastify.pgQuery({
+        query,
+        model: TasksQueryResult,
+        values: [id],
+        traceLogger: socketLogger,
+      });
+      if (!taskResult.isOk) {
+        socketLogger.error({ error: tasksResult.data }, "Error deleting task");
+      } else {
+        socket.emit("task:deleted", taskResult.data[0].id);
+        socketLogger.info("Task deleted and emitted");
+      }
+    });
   });
 };
 

@@ -27,9 +27,9 @@ export const getAuthToken = async (code: string, environment: ENVIRONMENT) => {
   const parsed = AuthTokenResponse.safeParse(tokenJson);
   if (parsed.success) {
     sessionStorage.setItem("access_token", parsed.data.access_token);
-    return { isAuthenticated: true };
+    return { isAuthenticated: true, status: tokenResponse.status };
   }
 
   console.error(parsed.error);
-  return { isAuthenticated: false };
+  return { isAuthenticated: false, status: tokenResponse.status };
 };
