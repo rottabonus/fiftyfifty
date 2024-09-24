@@ -18,8 +18,8 @@ export const getUsers = async (environment: ENVIRONMENT) => {
 
   const parsed = UsersResponse.safeParse(usersJson);
   if (parsed.success) {
-    return parsed.data;
+    return parsed.data.users;
   }
 
-  return null;
+  return [];
 };
