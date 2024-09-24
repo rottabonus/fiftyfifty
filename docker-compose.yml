@@ -1,8 +1,6 @@
 services:
 
   back:
-    deploy:
-      replicas: 0
     image: fiftyfifty-backend
     build:
       context: ./back
@@ -16,8 +14,6 @@ services:
       - 3000:3000
 
   front:
-    deploy:
-      replicas: 0
     image: fiftyfifty-frontend
     build:
       context: ./front
