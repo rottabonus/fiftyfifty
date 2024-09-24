@@ -8,8 +8,12 @@ export const tasks = async (fastify: FastifyInstance) => {
       tracingId: `user-${socket.handshake.auth.userID}-socket-task`,
     });
 
-    // get all tasks
-    const query = `SELECT * from tasks;`;
+    // get default tasks
+    const query = `
+      SELECT * FROM tasks
+      WHERE "dueDate" >= date_trunc('week', now()::timestamptz)
+      AND "dueDate" < date_trunc('week', now()::timestamptz) + interval '1 week';
+    `;
     const tasksResult = await fastify.pgQuery({
       query,
       model: TasksQueryResult,
