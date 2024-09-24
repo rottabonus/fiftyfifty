@@ -14,10 +14,17 @@ export const useAuthentication = (environment: ENVIRONMENT) => {
     await getAuthUrl(environment);
   };
 
+  const removeQueryParams = () => {
+    const url = new URL(window.location.href);
+    url.search = "";
+    window.history.replaceState({}, "", url);
+  };
+
   const handleToken = async (code: string) => {
     const result = await getAuthToken(code, environment);
     setIsAuthenticated(result.isAuthenticated);
     setIsUnauthorized(result.status === 403);
+    removeQueryParams();
   };
 
   React.useEffect(() => {
