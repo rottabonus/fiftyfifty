@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { UsersQueryResult } from "./models.js";
+import { UsersQueryResult, UsersResponse } from "./models.js";
 import { getTracingHeader } from "../../lib/utils.js";
 
 export const getUsers = async (fastify: FastifyInstance) => {
@@ -10,7 +10,7 @@ export const getUsers = async (fastify: FastifyInstance) => {
     url: "/users",
     schema: {
       response: {
-        200: UsersQueryResult,
+        200: UsersResponse,
         500: z.object({ error: z.unknown() }),
       },
     },
@@ -32,7 +32,7 @@ export const getUsers = async (fastify: FastifyInstance) => {
           traceLogger: usersLogger,
         });
         if (usersResult.isOk) {
-          return reply.code(200).send(usersResult.data);
+          return reply.code(200).send({ users: usersResult.data });
         }
 
         usersLogger.error({ error: usersResult.data }, "Error parsing users");

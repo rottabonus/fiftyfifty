@@ -8,6 +8,7 @@ import { getAuthToken } from "./getAuthToken";
 export const useAuthentication = (environment: ENVIRONMENT) => {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isUnauthorized, setIsUnauthorized] = React.useState(false);
 
   const login = async () => {
     await getAuthUrl(environment);
@@ -16,6 +17,7 @@ export const useAuthentication = (environment: ENVIRONMENT) => {
   const handleToken = async (code: string) => {
     const result = await getAuthToken(code, environment);
     setIsAuthenticated(result.isAuthenticated);
+    setIsUnauthorized(result.status === 403);
   };
 
   React.useEffect(() => {
@@ -27,5 +29,5 @@ export const useAuthentication = (environment: ENVIRONMENT) => {
     }
   }, [location]);
 
-  return { login, isAuthenticated };
+  return { login, isAuthenticated, isUnauthorized };
 };

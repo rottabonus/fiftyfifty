@@ -10,3 +10,5 @@ const User = z.object({
 });
 
 export const UsersQueryResult = z.array(User);
+
+export const UsersResponse = z.object({ users: UsersQueryResult });
