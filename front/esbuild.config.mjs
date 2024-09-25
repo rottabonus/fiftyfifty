@@ -19,7 +19,7 @@ const buildOptions = {
 
 const build = async () => {
   await esbuild.build(buildOptions);
-  console.log(isProduction ? 'Production build completed.' : 'Build completed.');
+  console.log(`Build completed, mode=${process.env.NODE_ENV}`);
 };
 
 const serve = async () => {

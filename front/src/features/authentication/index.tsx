@@ -1,7 +1,9 @@
 import React from "react";
 import { useAuthentication } from "./useAuthentication";
 import { useEnvironment } from "../envContext/useEnvironment";
-import { LoginButton } from "./components/LoginButton";
+import { styled } from "@linaria/react";
+import { LoginForm } from "./components/LoginForm";
+import { Unauthorized } from "./components/Unauthorized";
 
 type Props = {
   children: React.ReactNode;
@@ -13,16 +15,22 @@ export const Authentication = ({ children }: Props) => {
     useAuthentication(environment);
 
   return (
-    <div>
+    <Container>
       {isAuthenticated ? (
         <>{children}</>
       ) : isUnauthorized ? (
-        <p>You are unauthorized to access this application</p>
+        <Unauthorized />
       ) : (
-        <LoginButton onClick={login} text="Google login" />
+        <LoginForm onClick={login} text="Google login" />
       )}
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default Authentication;
