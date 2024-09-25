@@ -4,6 +4,7 @@ import type { User } from "../../userInfo/getUser";
 
 import { useDebounce } from "../../../lib/useDebounce";
 
+import { styled } from "@linaria/react";
 import { RiDeleteBin7Line } from "react-icons/ri";
 
 type Props = {
@@ -26,7 +27,7 @@ export const Item = ({ task, users, updateTask, deleteTask }: Props) => {
   }, 500);
 
   return (
-    <li style={{ display: "flex", gap: "8px" }}>
+    <ListItem>
       <input
         type="text"
         value={localTask.name}
@@ -56,6 +57,11 @@ export const Item = ({ task, users, updateTask, deleteTask }: Props) => {
       <button style={{}} onClick={() => deleteTask(task.id)}>
         <RiDeleteBin7Line />
       </button>
-    </li>
+    </ListItem>
   );
 };
+
+const ListItem = styled.li`
+  display: flex;
+  gap: 8px;
+`;

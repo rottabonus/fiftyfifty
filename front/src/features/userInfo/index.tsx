@@ -3,6 +3,7 @@ import { getUser } from "./getUser";
 import { useQuery } from "@tanstack/react-query";
 import { useEnvironment } from "../envContext/useEnvironment";
 import { useSocketConnection } from "../socketContext/useSocketConnection";
+import { styled } from "@linaria/react";
 
 export const UserInfo = () => {
   const environment = useEnvironment();
@@ -14,13 +15,26 @@ export const UserInfo = () => {
   const { isConnected } = useSocketConnection(data?.user);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      <div style={{ display: "flex", gap: "8px" }}>
+    <Container>
+      <TextContainer>
         <h2>Hello, </h2>
-        <h2 style={{ color: isConnected ? "green" : "red" }}>
-          {data?.user.name}!
-        </h2>
-      </div>
-    </div>
+        <UserName isConnected={isConnected}>{data?.user.name}!</UserName>
+      </TextContainer>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const UserName = styled.h2<{ isConnected: boolean }>`
+  color: ${(props) => (props.isConnected ? "green" : "red")};
+`;

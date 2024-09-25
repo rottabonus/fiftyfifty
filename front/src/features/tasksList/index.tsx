@@ -5,6 +5,7 @@ import { useTaskSocket } from "../socketContext/useTaskSocket";
 import { useQuery } from "@tanstack/react-query";
 import { useEnvironment } from "../envContext/useEnvironment";
 import { getUsers } from "./api/getUsers";
+import { styled } from "@linaria/react";
 import { Tabs } from "./components/Tabs";
 import { Item } from "./components/Item";
 import { NewTask } from "./components/NewTask";
@@ -27,7 +28,7 @@ export const TasksList = () => {
   const filteredTasks = tasks.filter(apply(selectedUser));
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <Container>
       <Tabs
         users={users}
         selectedUser={selectedUser}
@@ -45,6 +46,12 @@ export const TasksList = () => {
         ))}
       </ol>
       <NewTask />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;

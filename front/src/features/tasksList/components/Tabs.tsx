@@ -1,5 +1,6 @@
 import React from "react";
 import type { User } from "../../userInfo/getUser";
+import { styled } from "@linaria/react";
 
 type Props = {
   users: Array<User>;
@@ -9,7 +10,7 @@ type Props = {
 
 export const Tabs = ({ users, selectedUser, setSelectedUser }: Props) => {
   return (
-    <div style={{ display: "flex", gap: "8px" }}>
+    <Container>
       <button
         onClick={() => setSelectedUser(null)}
         style={{ color: !selectedUser ? "green" : "black" }}
@@ -25,6 +26,11 @@ export const Tabs = ({ users, selectedUser, setSelectedUser }: Props) => {
           {user.name}
         </button>
       ))}
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  gap: 8px;
+`;
