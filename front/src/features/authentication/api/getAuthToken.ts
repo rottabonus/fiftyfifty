@@ -1,6 +1,6 @@
 import { z } from "zod";
-import type { ENVIRONMENT } from "../../lib/config";
-import { config, getTracingHeader } from "../../lib/config";
+import type { ENVIRONMENT } from "../../../lib/config";
+import { config, getTracingHeader } from "../../../lib/config";
 
 const AuthTokenResponse = z.object({
   access_token: z.string(),

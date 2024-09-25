@@ -2,8 +2,8 @@ import React from "react";
 
 import type { ENVIRONMENT } from "../../lib/config";
 import { useLocation } from "./useLocation";
-import { getAuthUrl } from "./getAuthUrl";
-import { getAuthToken } from "./getAuthToken";
+import { getAuthUrl } from "./api/getAuthUrl";
+import { getAuthToken } from "./api/getAuthToken";
 
 export const useAuthentication = (environment: ENVIRONMENT) => {
   const location = useLocation();
