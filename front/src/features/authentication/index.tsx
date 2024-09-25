@@ -1,10 +1,12 @@
 import React from "react";
-import { useAuthentication } from "./features/useAuthentication";
+import { useAuthentication } from "./useAuthentication";
+import { useEnvironment } from "../envContext/useEnvironment";
 
-import { App } from "./App";
-import { useEnvironment } from "./features/envContext/useEnvironment";
+type Props = {
+  children: React.ReactNode;
+};
 
-export const Unauthenticated = () => {
+export const Authentication = ({ children }: Props) => {
   const environment = useEnvironment();
   const { login, isAuthenticated, isUnauthorized } =
     useAuthentication(environment);
@@ -12,7 +14,7 @@ export const Unauthenticated = () => {
   return (
     <div>
       {isAuthenticated ? (
-        <App />
+        <>{children}</>
       ) : isUnauthorized ? (
         <p>You are unauthorized to access this application</p>
       ) : (

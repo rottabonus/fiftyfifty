@@ -2,8 +2,9 @@ import React from "react";
 import type { ENVIRONMENT } from "./lib/config";
 import { EnvironmentProvider } from "./features/envContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Unauthenticated } from "./Unauthenticated";
 import { SocketProvider } from "./features/socketContext";
+import { Authentication } from "./features/authentication";
+import { App } from "./App";
 
 type Props = {
   environment: ENVIRONMENT;
@@ -16,7 +17,9 @@ export const AppProvider = ({ environment }: Props) => {
       <EnvironmentProvider environment={environment}>
         <QueryClientProvider client={queryClient}>
           <SocketProvider>
-            <Unauthenticated />
+            <Authentication>
+              <App />
+            </Authentication>
           </SocketProvider>
         </QueryClientProvider>
       </EnvironmentProvider>
