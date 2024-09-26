@@ -2,7 +2,7 @@ import React from "react";
 import { io } from "socket.io-client";
 import { SocketClient } from "./types";
 import { User } from "../userInfo/getUser";
-import { getAccessToken } from "../../lib/config";
+import { ENVIRONMENT, config, getAccessToken } from "../../lib/config";
 
 interface SocketContextType {
   socket: SocketClient | null;
@@ -22,13 +22,14 @@ export const useSocket = (): SocketContextType => {
   return context;
 };
 
-export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const SocketProvider: React.FC<{
+  children: React.ReactNode;
+  environment: ENVIRONMENT;
+}> = ({ children, environment }) => {
   const [socket, setSocket] = React.useState<SocketClient | null>(null);
 
   const connectSocket = (user: User) => {
-    const newSocket = io("http://localhost:3000", {
+    const newSocket = io(config[environment].baseUrl, {
       autoConnect: false,
       auth: { name: user.name, userID: user.id },
       extraHeaders: { authorization: String(getAccessToken()) },

@@ -17,7 +17,7 @@ export const getAuthUrl = async (environment: ENVIRONMENT) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        redirect_uri: "http://localhost:3001",
+        redirect_uri: config[environment].redirectUri,
       }),
     },
   );

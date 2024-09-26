@@ -16,7 +16,7 @@ export const AppProvider = ({ environment }: Props) => {
     <React.StrictMode>
       <EnvironmentProvider environment={environment}>
         <QueryClientProvider client={queryClient}>
-          <SocketProvider>
+          <SocketProvider environment={environment}>
             <Authentication>
               <App />
             </Authentication>
