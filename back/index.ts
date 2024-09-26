@@ -32,7 +32,11 @@ fastify.setSerializerCompiler(serializerCompiler);
 
 // Plugins
 await fastify.register(cors, {
-  origin: ["http://localhost:3001"],
+  origin: [
+    "http://localhost:3001",
+    "https://fifty-app.com",
+    "https://www.fifty-app.com",
+  ],
 });
 fastify.register(traceLogger);
 fastify.register(swagger);
