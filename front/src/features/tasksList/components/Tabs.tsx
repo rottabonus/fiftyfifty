@@ -11,20 +11,17 @@ type Props = {
 export const Tabs = ({ users, selectedUser, setSelectedUser }: Props) => {
   return (
     <Container>
-      <button
-        onClick={() => setSelectedUser(null)}
-        style={{ color: !selectedUser ? "green" : "black" }}
-      >
+      <Tab onClick={() => setSelectedUser(null)} isSelected={!selectedUser}>
         all
-      </button>
+      </Tab>
       {users.map((user) => (
-        <button
+        <Tab
           key={`tab_${user.id}`}
           onClick={() => setSelectedUser(user)}
-          style={{ color: selectedUser?.id === user.id ? "green" : "black" }}
+          isSelected={selectedUser?.id === user.id}
         >
           {user.name}
-        </button>
+        </Tab>
       ))}
     </Container>
   );
@@ -33,4 +30,17 @@ export const Tabs = ({ users, selectedUser, setSelectedUser }: Props) => {
 const Container = styled.div`
   display: flex;
   gap: 8px;
+`;
+
+const Tab = styled.button<{ isSelected: boolean }>`
+  padding: 4px;
+  font-size: large;
+  background: none;
+  border: 2px solid black;
+  box-shadow: 5px 3px 3px black;
+  background-color: ${(props) => (props.isSelected ? "#c4a1ff" : "#e3dff2")};
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
 `;

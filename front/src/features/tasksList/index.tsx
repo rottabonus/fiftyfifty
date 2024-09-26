@@ -34,7 +34,7 @@ export const TasksList = () => {
         selectedUser={selectedUser}
         setSelectedUser={setSelectedUser}
       />
-      <ol>
+      <List>
         {filteredTasks.map((task) => (
           <Item
             key={task.id}
@@ -44,13 +44,19 @@ export const TasksList = () => {
             users={users}
           />
         ))}
-      </ol>
+      </List>
       <NewTask />
     </Container>
   );
 };
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const List = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;

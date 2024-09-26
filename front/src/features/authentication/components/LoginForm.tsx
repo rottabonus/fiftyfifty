@@ -17,11 +17,13 @@ export const LoginForm = (props: Props) => {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  min-width: 80%;
+  width: 200px;
   padding: 32px 16px;
   border: 1px solid black;
   background-color: #daf5f0;
   border-radius: 8px;
   box-shadow: 10px 5px 5px black;
+  gap: 8px;
 `;
