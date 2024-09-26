@@ -12,8 +12,8 @@ export const config = {
     redirectUri: "http://localhost:3001",
   },
   docker: {
-    baseUrl: "http://backend:3000",
-    redirectUri: "http://backend:3000",
+    baseUrl: "http://localhost:3000",
+    redirectUri: "http://localhost:3000",
   },
   prod: {
     baseUrl: "https://fifty-app.com",
