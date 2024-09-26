@@ -11,7 +11,7 @@ export const session = async (fastify: FastifyInstance) => {
     });
     socketLogger.info("Connection established");
     const user = toUser(socket.handshake.auth);
-    socket.emit("user:connected", user);
+    socket.broadcast.emit("user:connected", user);
 
     // insert or update session
     const query = `
