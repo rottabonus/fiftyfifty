@@ -47,7 +47,7 @@ export const tasks = async (fastify: FastifyInstance) => {
       if (!taskResult.isOk) {
         socketLogger.error({ error: tasksResult.data }, "Error updating task");
       } else {
-        socket.emit("task:updated", taskResult.data[0]);
+        fastify.io.emit("task:updated", taskResult.data[0]);
         socketLogger.info("Task updated and emitted");
       }
     });
@@ -70,7 +70,7 @@ export const tasks = async (fastify: FastifyInstance) => {
       if (!taskResult.isOk) {
         socketLogger.error({ error: tasksResult.data }, "Error creating task");
       } else {
-        socket.emit("task:created", taskResult.data[0]);
+        fastify.io.emit("task:created", taskResult.data[0]);
         socketLogger.info("Task created and emitted");
       }
     });
@@ -93,7 +93,7 @@ export const tasks = async (fastify: FastifyInstance) => {
       if (!taskResult.isOk) {
         socketLogger.error({ error: tasksResult.data }, "Error deleting task");
       } else {
-        socket.emit("task:deleted", taskResult.data[0].id);
+        fastify.io.emit("task:deleted", taskResult.data[0].id);
         socketLogger.info("Task deleted and emitted");
       }
     });
