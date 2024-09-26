@@ -4,7 +4,11 @@ import type { User } from "../../userInfo/getUser";
 
 import { useDebounce } from "../../../lib/useDebounce";
 
+import { styled } from "@linaria/react";
 import { RiDeleteBin7Line } from "react-icons/ri";
+import { Input } from "./Input";
+import { SelectInput } from "./SelectInput";
+import { DeleteButton } from "./DeleteButton";
 
 type Props = {
   task: Task;
@@ -26,13 +30,13 @@ export const Item = ({ task, users, updateTask, deleteTask }: Props) => {
   }, 500);
 
   return (
-    <li style={{ display: "flex", gap: "8px" }}>
-      <input
+    <ListItem isDone={localTask.done}>
+      <Input
         type="text"
         value={localTask.name}
         onChange={(e) => handleChange("name", e.target.value)}
       />
-      <select
+      <SelectInput
         value={String(localTask.assigneeId)}
         onChange={(e) =>
           handleChange(
@@ -41,21 +45,44 @@ export const Item = ({ task, users, updateTask, deleteTask }: Props) => {
           )
         }
       >
-        <option value={undefined} />
+        <Option value={undefined} />
         {users.map((user) => (
-          <option key={`assigneeId_option_${user.id}`} value={user.id}>
+          <Option key={`assigneeId_option_${user.id}`} value={user.id}>
             {user.name}
-          </option>
+          </Option>
         ))}
-      </select>
-      <input
+      </SelectInput>
+      <Checkbox
         type="checkbox"
         checked={localTask.done}
         onChange={(e) => handleChange("done", e.target.checked)}
       />
-      <button style={{}} onClick={() => deleteTask(task.id)}>
+      <DeleteButton onClick={() => deleteTask(task.id)}>
         <RiDeleteBin7Line />
-      </button>
-    </li>
+      </DeleteButton>
+    </ListItem>
   );
 };
+
+const ListItem = styled.div<{ isDone: boolean }>`
+  padding: 8px 16px;
+  background-color: #f8d6b3;
+  border: 1px solid black;
+  display: flex;
+  gap: 8px;
+  box-shadow: 5px 3px 3px black;
+  flex-wrap: wrap;
+  position: relative;
+  text-decoration: ${(props) => (props.isDone ? "line-through" : "none")};
+`;
+
+const Option = styled.option`
+  font-size: 24px;
+`;
+
+const Checkbox = styled.input`
+  width: 32px;
+  height: 32px;
+  accent-color: #90ee90;
+  cursor: pointer;
+`;

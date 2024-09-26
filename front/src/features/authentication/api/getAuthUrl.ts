@@ -1,6 +1,6 @@
 import { z } from "zod";
-import type { ENVIRONMENT } from "../../lib/config";
-import { config, getTracingHeader } from "../../lib/config";
+import type { ENVIRONMENT } from "../../../lib/config";
+import { config, getTracingHeader } from "../../../lib/config";
 
 const AuthUrlResponse = z.object({
   code_verifier: z.string(),
@@ -17,7 +17,7 @@ export const getAuthUrl = async (environment: ENVIRONMENT) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        redirect_uri: "http://localhost:3001",
+        redirect_uri: config[environment].redirectUri,
       }),
     },
   );

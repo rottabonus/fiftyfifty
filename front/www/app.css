@@ -1,5 +1,202 @@
+@import "https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap";
+
 /* index.css */
 body,
 html {
-  font-family: sans-serif;
+  font-family: "Darker Grotesque", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+/* wyw-in-js:index_1q103l8.wyw.css */
+.csm986b {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+/* wyw-in-js:LoginForm_1l27rz9.wyw.css */
+.ck9e4fb {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  min-width: 80%;
+  padding: 32px 16px;
+  border: 1px solid black;
+  background-color: #daf5f0;
+  border-radius: 8px;
+  box-shadow: 10px 5px 5px black;
+  gap: 8px;
+}
+
+/* wyw-in-js:LoginButton_1szmsi.wyw.css */
+.b13tt4s4 {
+  padding: 8px;
+  font-size: xx-large;
+  background: none;
+  border: 2px solid black;
+  border-radius: 8px;
+  box-shadow: 5px 3px 3px black;
+  background-color: lightsalmon;
+}
+.b13tt4s4:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* wyw-in-js:Unauthorized_wp3rhn.wyw.css */
+.c1eu4sv9 {
+  min-width: 80%;
+  padding: 16px;
+  border: 1px solid black;
+  background-color: #fdfd96;
+  border-radius: 8px;
+  box-shadow: 10px 5px 5px black;
+}
+.t1g9ouzm {
+  font-size: xx-large;
+}
+
+/* wyw-in-js:App_zmfuf6.wyw.css */
+.cuwg8pj {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* wyw-in-js:index_1hywgm3.wyw.css */
+.c1xjmrc9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 8px;
+}
+.t10e6q5h {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+}
+.umluudt {
+  color: var(--umluudt-0);
+}
+
+/* wyw-in-js:index_1vn142l.wyw.css */
+.cuwoahb {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* wyw-in-js:Tabs_t7r1q9.wyw.css */
+.c3n81p7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+}
+.tasmltx {
+  padding: 4px;
+  font-size: large;
+  background: none;
+  border: 2px solid black;
+  box-shadow: 5px 3px 3px black;
+  background-color: var(--tasmltx-0);
+}
+.tasmltx:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* wyw-in-js:Item_1yl85c5.wyw.css */
+.lgg692g {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+}
+.oig3nco {
+  font-size: 24;
+}
+.c1kf6y2t {
+  width: 32px;
+  height: 32px;
+  accent-color: #ff7a5c;
+  color: #e3dff2;
+}
+.d1xvp3d0 {
+  padding: 8px;
+  font-size: xx-large;
+  background: none;
+  border: 2px solid black;
+  border-radius: 8px;
+  box-shadow: 5px 3px 3px black;
+  background-color: #e3dff2;
+  color: #ff6b6b;
+}
+.d1xvp3d0:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* wyw-in-js:Input_1khbkbt.wyw.css */
+.iahq6h3 {
+  font-size: 24px;
+  border: 2px solid black;
+  box-shadow: 3px 1px 1px black;
+}
+.iahq6h3:focus {
+  outline: 1px solid #e3a018;
+  border: 1px solid #e3a018;
+  box-shadow: 3px 1px 1px #e3a018;
+  caret-color: #e3a018;
+}
+
+/* wyw-in-js:SelectInput_1j6gzoi.wyw.css */
+.s6tcckd {
+  font-size: 24px;
+  border: 2px solid black;
+  box-shadow: 3px 1px 1px black;
+  max-width: 400px;
+}
+.s6tcckd:focus {
+  outline: 1px solid #e3a018;
+  border: 1px solid #e3a018;
+  box-shadow: 3px 1px 1px #e3a018;
+  caret-color: #e3a018;
 }

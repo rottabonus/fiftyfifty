@@ -1,12 +1,19 @@
 import React from "react";
 import { UserInfo } from "./features/userInfo";
 import { TasksList } from "./features/tasksList";
+import { styled } from "@linaria/react";
 
 export const App = () => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+    <Container>
       <UserInfo />
       <TasksList />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;

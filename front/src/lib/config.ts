@@ -5,15 +5,19 @@ export const TRACING_HEADER = "x-tracing-id";
 export const config = {
   none: {
     baseUrl: "",
+    redirectUri: "",
   },
   local: {
     baseUrl: "http://localhost:3000",
+    redirectUri: "http://localhost:3001",
   },
   docker: {
-    baseUrl: "http://backend:3000",
+    baseUrl: "http://localhost:3000",
+    redirectUri: "http://localhost:3000",
   },
   prod: {
-    baseUrl: "",
+    baseUrl: "https://fifty-app.com",
+    redirectUri: "https://fifty-app.com",
   },
 };
 
