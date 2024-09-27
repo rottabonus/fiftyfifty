@@ -7,7 +7,6 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@dnd-kit/core": "^6.1.0",
     "@linaria/core": "^6.2.0",
     "@linaria/react": "^6.2.1",
     "@tanstack/react-query": "^5.49.2",

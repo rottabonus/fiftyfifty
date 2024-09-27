@@ -15,5 +15,6 @@ export const App = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  margin: 16px;
 `;

@@ -36,5 +36,5 @@ const TextContainer = styled.div`
 `;
 
 const UserName = styled.h2<{ isConnected: boolean }>`
-  color: ${(props) => (props.isConnected ? "#c4a1ff" : "#ff6b6b")};
+  color: ${(props) => (props.isConnected ? "#a388ee" : "#ff6b6b")};
 `;
