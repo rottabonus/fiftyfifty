@@ -54,7 +54,7 @@ const NewButton = styled.button`
   border: 2px solid black;
   border-radius: 8px;
   box-shadow: 5px 3px 3px black;
-  background-color: #bafca2;
+  background-color: #e3dff2;
   &:hover {
     opacity: 0.8;
     cursor: pointer;
