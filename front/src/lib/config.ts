@@ -37,8 +37,8 @@ export const toEnvironment = (data: null | string): ENVIRONMENT => {
   return "none";
 };
 
-export const getTracingHeader = () => ({
-  ["x-tracing-id"]: newUid(),
+export const getTracingHeader = (tracing: string | null) => ({
+  ["x-tracing-id"]: tracing ?? newUid(),
 });
 
 export const getAccessToken = () => sessionStorage.getItem("access_token");

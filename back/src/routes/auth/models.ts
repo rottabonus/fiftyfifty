@@ -3,6 +3,7 @@ import { z } from "zod";
 export const AuthUrlResponse = z.object({
   code_verifier: z.string(),
   auth_url: z.string(),
+  tracing: z.string(),
 });
 
 export const AuthUrlRequest = z.object({

@@ -41,7 +41,10 @@ export const getAuthUrl = async (fastify: FastifyInstance) => {
           `https://accounts.google.com/o/oauth2/v2/auth?client_id=${config.clientId}&scope=openid email profile&include_granted_scopes=true&response_type=code&state=state_parameter_passthrough_value&code_challenge_method=S256&code_challenge=${codeChallenge}&redirect_uri=${request.body.redirect_uri}`,
         );
 
-        return reply.code(200).send({ auth_url, code_verifier });
+        authLogger.debug("sending auth url, code_verifier and trace back");
+        return reply
+          .code(200)
+          .send({ auth_url, code_verifier, tracing: tracingId });
       } catch (error) {
         authLogger.error({ error }, "Error handling request");
         reply.code(500).send({ error: JSON.stringify(error) });
