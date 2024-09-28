@@ -5,6 +5,7 @@ import { config, getTracingHeader } from "../../../lib/config";
 const AuthUrlResponse = z.object({
   code_verifier: z.string(),
   auth_url: z.string(),
+  tracing: z.string(),
 });
 
 export const getAuthUrl = async (environment: ENVIRONMENT) => {
@@ -26,6 +27,7 @@ export const getAuthUrl = async (environment: ENVIRONMENT) => {
   const parsed = AuthUrlResponse.safeParse(authJson);
   if (parsed.success) {
     sessionStorage.setItem("code_verifier", parsed.data.code_verifier);
+    sessionStorage.setItem("auth_tracing", parsed.data.tracing);
     window.location.href = parsed.data.auth_url;
   }
 
