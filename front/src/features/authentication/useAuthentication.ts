@@ -24,7 +24,6 @@ export const useAuthentication = (environment: ENVIRONMENT) => {
     const result = await getAuthToken(code, environment);
     setIsAuthenticated(result.isAuthenticated);
     setIsUnauthorized(result.status === 403);
-    removeQueryParams();
   };
 
   React.useEffect(() => {
@@ -32,6 +31,7 @@ export const useAuthentication = (environment: ENVIRONMENT) => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
     if (code) {
+      removeQueryParams();
       handleToken(code);
     }
   }, [location]);
