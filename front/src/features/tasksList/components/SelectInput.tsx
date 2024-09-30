@@ -5,6 +5,7 @@ export const SelectInput = styled.select`
   border: 2px solid black;
   box-shadow: 3px 1px 1px black;
   max-width: 400px;
+  min-width: 150px;
   &:focus {
     outline: 1px solid #e3a018;
     border: 1px solid #e3a018;

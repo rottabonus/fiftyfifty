@@ -18,8 +18,20 @@ export const getUsers = async (environment: ENVIRONMENT) => {
 
   const parsed = UsersResponse.safeParse(usersJson);
   if (parsed.success) {
-    return parsed.data.users;
+    return parsed.data.users.map(toAppUser);
   }
 
   return [];
 };
+
+const toFirstName = (name: string) => {
+  const nameRegex = /^[A-Z][a-z]+(?:\s[A-Z][a-z]+)*$/;
+  const isValid = nameRegex.test(name);
+  if (isValid) {
+    return name.split(" ")[0];
+  }
+
+  return name;
+};
+
+const toAppUser = (user: User) => ({ ...user, name: toFirstName(user.name) });

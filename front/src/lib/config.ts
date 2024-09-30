@@ -37,7 +37,7 @@ export const toEnvironment = (data: null | string): ENVIRONMENT => {
   return "none";
 };
 
-export const getTracingHeader = (tracing: string | null) => ({
+export const getTracingHeader = (tracing?: string | null) => ({
   ["x-tracing-id"]: tracing ?? newUid(),
 });
 
