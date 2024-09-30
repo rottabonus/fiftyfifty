@@ -66,7 +66,7 @@ export const Item = ({ task, users, updateTask, deleteTask }: Props) => {
 
 const ListItem = styled.div<{ isDone: boolean }>`
   padding: 8px 16px;
-  max-width: 400px;
+  width: 500px;
   background-color: #f8d6b3;
   border: 1px solid black;
   display: flex;
@@ -75,6 +75,10 @@ const ListItem = styled.div<{ isDone: boolean }>`
   flex-wrap: wrap;
   position: relative;
   text-decoration: ${(props) => (props.isDone ? "line-through" : "none")};
+
+  @media (max-width: 450px) {
+    width: 90%;
+  }
 `;
 
 const Option = styled.option`
