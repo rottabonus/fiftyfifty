@@ -58,11 +58,6 @@ fastify.register(getAuthToken);
 fastify.register(session);
 fastify.register(tasks);
 
-// fallback
-fastify.get("/*", async (_request, reply) => {
-  return reply.sendFile("index.html");
-});
-
 const start = async () => {
   try {
     await fastify.listen({ port: config.port, host: "0.0.0.0" });
